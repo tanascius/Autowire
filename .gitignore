@@ -1,0 +1,19 @@
+# temp
+*.user
+*.suo
+
+# Binaries
+Debug/
+Release/
+Binaries/
+bin/
+obj/
+
+# Resharper, StyleCop
+*.ReSharper.*
+*.resharper
+_ReSharper*
+StyleCop.Cache
+
+# MKS
+*.pj

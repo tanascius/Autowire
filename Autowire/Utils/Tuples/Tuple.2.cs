@@ -13,15 +13,15 @@ namespace Autowire.Utils.Tuples
 		/// <param name="second">The second value.</param>
 		public Tuple( TFirst first, TSecond second )
 		{
-			First = first;
-			Second = second;
+			Item1 = first;
+			Item2 = second;
 		}
 
 		/// <summary>The first value.</summary>
-		public TFirst First { get; set; }
+		public TFirst Item1 { get; set; }
 
 		/// <summary>The second value.</summary>
-		public TSecond Second { get; set; }
+		public TSecond Item2 { get; set; }
 
 		/// <summary>Indicates whether the current object is equal to another object of the same type.</summary>
 		/// <returns>true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.</returns>
@@ -32,7 +32,7 @@ namespace Autowire.Utils.Tuples
 			{
 				return false;
 			}
-			return EqualityComparer<TFirst>.Default.Equals( First, other.First ) && EqualityComparer<TSecond>.Default.Equals( Second, other.Second );
+			return EqualityComparer<TFirst>.Default.Equals( Item1, other.Item1 ) && EqualityComparer<TSecond>.Default.Equals( Item2, other.Item2 );
 		}
 
 		/// <summary>Determines whether the specified <see cref="object"/> is equal to the current <see cref="object"/>.</summary>
@@ -47,7 +47,7 @@ namespace Autowire.Utils.Tuples
 		/// <returns>A hash code for the current <see cref="object"/>.</returns>
 		public override int GetHashCode()
 		{
-			return EqualityComparer<TFirst>.Default.GetHashCode( First ) * 37 + EqualityComparer<TSecond>.Default.GetHashCode( Second );
+			return EqualityComparer<TFirst>.Default.GetHashCode( Item1 ) * 37 + EqualityComparer<TSecond>.Default.GetHashCode( Item2 );
 		}
 	}
 }

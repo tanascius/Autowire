@@ -9,7 +9,7 @@
 		/// <param name="first">The first value.</param>
 		/// <param name="second">The second value.</param>
 		/// <returns>A <see cref="Tuple{TFirst,TSecond}"/>.</returns>
-		public static Tuple<TFirst, TSecond> New<TFirst, TSecond>( TFirst first, TSecond second )
+		public static Tuple<TFirst, TSecond> Create<TFirst, TSecond>( TFirst first, TSecond second )
 		{
 			return new Tuple<TFirst, TSecond>( first, second );
 		}

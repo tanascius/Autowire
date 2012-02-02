@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Threading;
 using Autowire.Injectors;
-using Autowire.Utils.Tuples;
 using Autowire.Utils.Extensions;
+using Autowire.Utils.Tuples;
 
 namespace Autowire
 {
@@ -35,7 +35,7 @@ namespace Autowire
 			foreach( var fieldInfo in m_Configuration.InjectForComponents )
 			{
 				var typeInformation = new TypeInformation( m_Container, String.Empty, fieldInfo.FieldType, configurationManager );
-				m_ExternalInjectors.Add( Tuple.New( typeInformation, fieldInfo ) );
+				m_ExternalInjectors.Add( Tuple.Create( typeInformation, fieldInfo ) );
 			}
 			m_HasExternalInjectors = m_ExternalInjectors.Count != 0;
 
@@ -182,7 +182,7 @@ namespace Autowire
 			{
 				for( var i = 0; i < m_ExternalInjectors.Count; i++ )
 				{
-					m_ExternalInjectors[i].First.Inject( m_ExternalInjectors[i].Second.GetValue( instance ) );
+					m_ExternalInjectors[i].Item1.Inject( m_ExternalInjectors[i].Item2.GetValue( instance ) );
 				}
 			}
 

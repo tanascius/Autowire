@@ -12,7 +12,7 @@ namespace Autowire.Tests.FastDynamics
 		public void CreateInstanceNoArg()
 		{
 			var fastInvoker = new FastInvoker( typeof( TestClassForInvokation ).GetConstructors()[0] );
-			var instance = (TestClassForInvokation)fastInvoker.Invoke();
+			var instance = ( TestClassForInvokation ) fastInvoker.Invoke();
 
 			Assert.IsNotNull( instance );
 			Assert.AreEqual( null, instance.Arg1 );
@@ -32,7 +32,7 @@ namespace Autowire.Tests.FastDynamics
 		public void CreateInstance1Arg()
 		{
 			var fastInvoker = new FastInvoker( typeof( TestClassForInvokation ).GetConstructors()[1] );
-			var instance = (TestClassForInvokation)fastInvoker.Invoke( "bleh" );
+			var instance = ( TestClassForInvokation ) fastInvoker.Invoke( "bleh" );
 
 			Assert.IsNotNull( instance );
 			Assert.AreEqual( "bleh", instance.Arg1 );
@@ -43,7 +43,7 @@ namespace Autowire.Tests.FastDynamics
 		public void CreateInstance2Args()
 		{
 			var fastInvoker = new FastInvoker( typeof( TestClassForInvokation ).GetConstructors()[2] );
-			var instance = (TestClassForInvokation)fastInvoker.Invoke( "bleh", 5 );
+			var instance = ( TestClassForInvokation ) fastInvoker.Invoke( "bleh", 5 );
 
 			Assert.IsNotNull( instance );
 			Assert.AreEqual( "bleh", instance.Arg1 );
@@ -91,7 +91,7 @@ namespace Autowire.Tests.FastDynamics
 		public void CreateGenericInstanceNoParameterOneArgument()
 		{
 			var fastInvoker = new FastInvoker( typeof( GenericTestClassForInvokationOneParameter<> ).GetConstructors()[1], typeof( string ) );
-			var instance = (GenericTestClassForInvokationOneParameter<string>)fastInvoker.Invoke( "bleh" );
+			var instance = ( GenericTestClassForInvokationOneParameter<string> ) fastInvoker.Invoke( "bleh" );
 
 			Assert.IsNotNull( instance );
 			Assert.AreEqual( "bleh", instance.Property );

@@ -74,7 +74,7 @@ namespace Autowire.Utils.FastDynamics
 			ilGen.Emit( OpCodes.Ret );
 
 			// Compile the dynamic method and return the delegate
-			return (Action<object, object>)dynMethod.CreateDelegate( typeof( Action<object, object> ) );
+			return ( Action<object, object> ) dynMethod.CreateDelegate( typeof( Action<object, object> ) );
 		}
 		#endregion
 

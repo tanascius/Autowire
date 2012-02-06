@@ -89,7 +89,7 @@ namespace Autowire.Utils.FastDynamics
 			ilGenerator.Emit( OpCodes.Ret );
 
 			// Compile the dynamic method and return the delegate
-			return (FastInvokationHandler)dynMethod.CreateDelegate( typeof( FastInvokationHandler ) );
+			return ( FastInvokationHandler ) dynMethod.CreateDelegate( typeof( FastInvokationHandler ) );
 		}
 		#endregion
 
@@ -149,7 +149,7 @@ namespace Autowire.Utils.FastDynamics
 			ilGenerator.Emit( OpCodes.Ret );
 
 			// Compile the dynamic method and return the delegate
-			return (InitializeHandler)dynMethod.CreateDelegate( typeof( InitializeHandler ) );
+			return ( InitializeHandler ) dynMethod.CreateDelegate( typeof( InitializeHandler ) );
 		}
 		#endregion
 

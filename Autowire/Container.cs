@@ -137,7 +137,7 @@ namespace Autowire
 		public T Resolve<T>( params object[] args )
 		{
 			var type = typeof( T );
-			return (T)ResolveHelper( this, string.Empty, type, 0, args );
+			return ( T ) ResolveHelper( this, string.Empty, type, 0, args );
 		}
 
 		/// <summary>Tries to resolves an instance by using the given name, type and arguments.</summary>
@@ -149,7 +149,7 @@ namespace Autowire
 		public T ResolveByName<T>( string name, params object[] args )
 		{
 			var type = typeof( T );
-			return (T)ResolveHelper( this, name, type, 0, args );
+			return ( T ) ResolveHelper( this, name, type, 0, args );
 		}
 
 		/// <summary>Tries to resolves an instance by using the given type and arguments.</summary>
@@ -356,7 +356,7 @@ namespace Autowire
 			{
 				for( var factoryIndex = 0; factoryIndex < factories.Count; factoryIndex++ )
 				{
-					collection.Add( (T)factories[factoryIndex].Invoke( container, type, args ) );
+					collection.Add( ( T ) factories[factoryIndex].Invoke( container, type, args ) );
 				}
 			}
 			return collection;
@@ -392,7 +392,7 @@ namespace Autowire
 				fastInvoker = new FastInvoker( m_GenericCollectionConstructor, type );
 				m_CollectionInvokers.Add( type, fastInvoker );
 			}
-			var collection = (IList)fastInvoker.Invoke();
+			var collection = ( IList ) fastInvoker.Invoke();
 
 			// Get all factories, that can deliver the type and invoke them
 			IList<IFactory> factories;

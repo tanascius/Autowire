@@ -31,7 +31,7 @@ namespace Autowire.Tests
 				container.Register.Type( typeof( Foo ) );
 
 				var bar = new Bar();
-				var foo = (Foo)container.Resolve( typeof( IFoo ), bar );
+				var foo = ( Foo ) container.Resolve( typeof( IFoo ), bar );
 
 				Assert.AreEqual( bar, foo.Bar );
 			}

@@ -27,7 +27,7 @@ namespace Autowire.Tests
 			using( var container = new Container() )
 			{
 				container.Configure<IFoo>().Argument( Argument.Create( "bar", new Bar() ) );
-				container.Configure<IFoo>().AfterResolve( ( c, foo ) => ( (IFoo)foo ).Text = "bleh" );
+				container.Configure<IFoo>().AfterResolve( ( c, foo ) => ( ( IFoo ) foo ).Text = "bleh" );
 
 				container.Register.Type<Foo>();
 

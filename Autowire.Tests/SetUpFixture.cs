@@ -1,4 +1,5 @@
-﻿#if !DEBUG
+﻿
+#if !DEBUG
 
 using NUnit.Framework;
 

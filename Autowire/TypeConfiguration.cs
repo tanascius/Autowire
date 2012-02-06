@@ -60,17 +60,17 @@ namespace Autowire
 		#region InjectProperty()
 		public IMembersConfiguration InjectProperty( string propertyName )
 		{
-			return ( (ITypeConfiguration)this ).InjectProperty( propertyName, String.Empty );
+			return ( ( ITypeConfiguration ) this ).InjectProperty( propertyName, String.Empty );
 		}
 
 		public IMembersConfiguration InjectProperty( string propertyName, string injectedName )
 		{
-			return ( (ITypeConfiguration)this ).InjectProperty( propertyName, injectedName );
+			return ( ( ITypeConfiguration ) this ).InjectProperty( propertyName, injectedName );
 		}
 
 		ITypeConfiguration ITypeConfiguration.InjectProperty( string propertyName )
 		{
-			return ( (ITypeConfiguration)this ).InjectProperty( propertyName, String.Empty );
+			return ( ( ITypeConfiguration ) this ).InjectProperty( propertyName, String.Empty );
 		}
 
 		ITypeConfiguration ITypeConfiguration.InjectProperty( string propertyName, string injectedName )
@@ -83,17 +83,17 @@ namespace Autowire
 		#region InjectField()
 		public IMembersConfiguration InjectField( string fieldName )
 		{
-			return ( (ITypeConfiguration)this ).InjectField( fieldName, string.Empty );
+			return ( ( ITypeConfiguration ) this ).InjectField( fieldName, string.Empty );
 		}
 
 		public IMembersConfiguration InjectField( string fieldName, string injectedName )
 		{
-			return ( (ITypeConfiguration)this ).InjectField( fieldName, injectedName );
+			return ( ( ITypeConfiguration ) this ).InjectField( fieldName, injectedName );
 		}
 
 		ITypeConfiguration ITypeConfiguration.InjectField( string fieldName )
 		{
-			return ( (ITypeConfiguration)this ).InjectField( fieldName, string.Empty );
+			return ( ( ITypeConfiguration ) this ).InjectField( fieldName, string.Empty );
 		}
 
 		ITypeConfiguration ITypeConfiguration.InjectField( string fieldName, string injectedName )

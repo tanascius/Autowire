@@ -47,8 +47,10 @@ namespace Autowire.Factories
 				m_FastInvoker = new FastInvoker( m_ConstructorInfo, null );
 			}
 
-			foreach( var parameterInfo in constructorInfo.GetParameters() )
+			var parameters = constructorInfo.GetParameters();
+			for( var i = 0; i < parameters.Length; i++ )
 			{
+				var parameterInfo = parameters[i];
 				Argument argument;
 				configuration.Arguments.TryGetValue( parameterInfo.Name, out argument );
 

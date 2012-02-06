@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using Autowire.Factories;
 using Autowire.KeyGenerators;
@@ -451,12 +452,9 @@ namespace Autowire
 			m_IsDisposed = true;
 
 			// Cleanup managed Resources
-			foreach( var factories in m_Factories.Values )
+			foreach( var factory in m_Factories.Values.SelectMany( factories => factories ) )
 			{
-				foreach( var factory in factories )
-				{
-					factory.Dispose();
-				}
+				factory.Dispose();
 			}
 
 			GC.SuppressFinalize( this );

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Autowire.Factories;
 using Autowire.KeyGenerators;
@@ -98,15 +99,13 @@ namespace Autowire
 			var registeredKeys = new HashSet<int>();
 
 			// For each constructor we need a seperate registration
-			foreach( var constructorInfo in type.GetConstructors( BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic ) )
+			foreach( var constructorInfo in  type.GetConstructors( BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic ) )
 			{
 				// Get the keys for this constructor
 				var keyGenerator = new RegisterKeyGenerator( name, type, constructorInfo, configuration.Arguments );
 				var keys = keyGenerator.GetKeys();
-				for( var i = 0; i < keys.Count; i++ )
+				foreach( var key in keys )
 				{
-					var key = keys[i];
-
 					// Check if we already had a constructor with the same signature
 					if( registeredKeys.Contains( key ) )
 					{
@@ -155,10 +154,8 @@ namespace Autowire
 
 			var keys = new RegisterKeyGenerator( name, instance ).GetKeys();
 			var instanceFactory = new InstanceFactory( instance );
-			for( var i = 0; i < keys.Count; i++ )
+			foreach( var factories in keys.Select( key => m_Container.GetFactories( key ) ) )
 			{
-				var key = keys[i];
-				var factories = m_Container.GetFactories( key );
 				factories.Insert( 0, instanceFactory );
 			}
 		}

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Autowire</RootNamespace>
     <AssemblyName>Autowire</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -101,8 +101,6 @@
     <Compile Include="Utils\FastDynamics\IFastSetter.cs" />
     <Compile Include="Utils\Extensions\ObjectExtensions.cs" />
     <Compile Include="Utils\Extensions\StringExtensions.cs" />
-    <Compile Include="Utils\Tuples\Tuple.2.cs" />
-    <Compile Include="Utils\Tuples\Tuple.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

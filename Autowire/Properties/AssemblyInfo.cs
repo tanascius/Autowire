@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 
 // Individual Information
 
@@ -27,7 +26,6 @@ using System.Security.Permissions;
 // Security and Compliance
 
 [assembly: CLSCompliant( true )]
-[assembly: PermissionSet( SecurityAction.RequestMinimum )]
 [assembly: ComVisible( false )]
 
 // Assembly signing

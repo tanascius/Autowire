@@ -5,6 +5,25 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class SimpleTests
 	{
+		#region objects
+		internal interface ICommon {}
+
+		internal interface IBar : ICommon {}
+
+		internal class Bar : IBar {}
+
+		internal sealed class BarDerived : Bar {}
+
+		internal sealed class BarDerived2 : Bar {}
+
+		internal abstract class AbstractClass {}
+
+		internal sealed class PrivateConstructor
+		{
+			private PrivateConstructor() {}
+		}
+		#endregion
+
 		[Test]
 		public void RegisterAndResolveByClass()
 		{
@@ -61,7 +80,7 @@ namespace Autowire.Tests
 				container.Register.Type<BarDerived>();
 
 				// Should be no problem althought we have two possible resolves, now
-				// That is, because the basetype was registeres at least once explicitly
+				// That is, because the basetype was registered at least once explicitly
 				var bar = container.Resolve<Bar>();
 
 				Assert.IsNotNull( bar );
@@ -174,10 +193,5 @@ namespace Autowire.Tests
 				Assert.IsNotNull( privateConstructor );
 			}
 		}
-	}
-
-	internal sealed class PrivateConstructor
-	{
-		private PrivateConstructor() {}
 	}
 }

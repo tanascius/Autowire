@@ -6,6 +6,76 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class EnumerableTests
 	{
+		#region Testobjects: IBar, Bar, BarDerived, BarDerived2, IFoo, Foo
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable MemberHidesStaticFromOuterClass
+
+		internal interface IBar { }
+
+		internal class Bar : IBar { }
+
+		internal sealed class BarDerived : Bar { }
+
+		internal sealed class BarDerived2 : Bar { }
+
+		internal interface IFoo
+		{
+			IBar Bar { get; }
+		}
+
+		internal sealed class Foo : IFoo
+		{
+			public Foo( IBar bar )
+			{
+				Bar = bar;
+			}
+
+			public IBar Bar { get; private set; }
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore MemberHidesStaticFromOuterClass
+		#endregion
+
+		#region Helper classes: ResolvePropertyCollection, ResolveCtorCollection, ResolverOfIEnumerableAsConstructor, ResolverOfIEnumerableAsProperty
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable UnusedAutoPropertyAccessor.Local
+
+		private class ResolvePropertyCollection
+		{
+			public IEnumerable<IBar> BarsProperty { get; private set; }
+			public IEnumerable<IBar> BarsField;
+		}
+
+		private class ResolveCtorCollection
+		{
+			public ResolveCtorCollection( IEnumerable<IBar> bars )
+			{
+				Bars = bars;
+			}
+
+			public IEnumerable<IBar> Bars { get; private set; }
+		}
+
+		private class ResolverOfIEnumerableAsConstructor
+		{
+			public ResolverOfIEnumerableAsConstructor( Resolver<IEnumerable<IBar>> resolver )
+			{
+				Resolver = resolver;
+			}
+
+			public Resolver<IEnumerable<IBar>> Resolver { get; private set; }
+		}
+
+		private class ResolverOfIEnumerableAsProperty
+		{
+			public Resolver<IEnumerable<IBar>> Resolver { get; private set; }
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore UnusedAutoPropertyAccessor.Local
+		#endregion
+
 		[Test]
 		public void GetNormalInstanceAsEnumberable()
 		{
@@ -166,36 +236,5 @@ namespace Autowire.Tests
 				Assert.AreEqual( 3, count );
 			}
 		}
-	}
-
-	internal class ResolvePropertyCollection
-	{
-		public IEnumerable<IBar> BarsProperty { get; private set; }
-		public IEnumerable<IBar> BarsField;
-	}
-
-	internal class ResolveCtorCollection
-	{
-		public ResolveCtorCollection( IEnumerable<IBar> bars )
-		{
-			Bars = bars;
-		}
-
-		public IEnumerable<IBar> Bars { get; set; }
-	}
-
-	internal class ResolverOfIEnumerableAsConstructor
-	{
-		public ResolverOfIEnumerableAsConstructor( Resolver<IEnumerable<IBar>> resolver )
-		{
-			Resolver = resolver;
-		}
-
-		public Resolver<IEnumerable<IBar>> Resolver { get; set; }
-	}
-
-	internal class ResolverOfIEnumerableAsProperty
-	{
-		public Resolver<IEnumerable<IBar>> Resolver { get; set; }
 	}
 }

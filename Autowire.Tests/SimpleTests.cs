@@ -5,23 +5,27 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class SimpleTests
 	{
-		#region objects
-		internal interface ICommon {}
+		#region Testobjects: IBar, Bar, BarDerived, BarDerived2, AbstractClass, PrivateConstructor
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable ConvertToStaticClass
 
-		internal interface IBar : ICommon {}
+		private interface IBar {}
 
-		internal class Bar : IBar {}
+		private class Bar : IBar {}
 
-		internal sealed class BarDerived : Bar {}
+		private sealed class BarDerived : Bar { }
 
-		internal sealed class BarDerived2 : Bar {}
+		private sealed class BarDerived2 : Bar { }
 
-		internal abstract class AbstractClass {}
+		private abstract class AbstractClass {}
 
-		internal sealed class PrivateConstructor
+		private sealed class PrivateConstructor
 		{
 			private PrivateConstructor() {}
 		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore ConvertToStaticClass
 		#endregion
 
 		[Test]

@@ -6,6 +6,75 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class FeatureTests
 	{
+		#region Testobjects: IBar, Bar, IFoo, Foo
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable MemberHidesStaticFromOuterClass
+		// ReSharper disable UnusedAutoPropertyAccessor.Local
+		// ReSharper disable UnusedMember.Local
+
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private interface IFoo
+		{
+			IBar Bar { get; set; }
+		}
+
+		private sealed class Foo : IFoo
+		{
+			public Foo( IBar bar )
+			{
+				Bar = bar;
+			}
+
+			public IBar Bar { get; set; }
+		}
+
+		private sealed class InjectCallback
+		{
+			public int Number { get; set; }
+		}
+
+		private sealed class AutoInjectConstructor
+		{
+			public AutoInjectConstructor( IBar barInjected )
+			{
+				BarInjected = barInjected;
+			}
+
+			public IBar BarInjected { get; private set; }
+		}
+
+		private sealed class Disposable : IDisposable
+		{
+			public bool IsDisposed { get; private set; }
+
+			public void Dispose()
+			{
+				IsDisposed = true;
+			}
+		}
+
+		private sealed class MethodInjectedLast
+		{
+			private void Init()
+			{
+				Assert.IsTrue( InjectMe );
+				InitWasCalled = true;
+			}
+
+			private bool InjectMe { get; set; }
+
+			public bool InitWasCalled { get; private set; }
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore MemberHidesStaticFromOuterClass
+		// ReSharper restore UnusedAutoPropertyAccessor.Local
+		// ReSharper restore UnusedMember.Local
+		#endregion
+
 		[Test]
 		public void DisposeHasToBeCalled()
 		{
@@ -24,16 +93,13 @@ namespace Autowire.Tests
 		[Test]
 		public void DoInitAfterResolve()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
-				container.Configure<IFoo>().Argument( Argument.Create( "bar", new Bar() ) );
-				container.Configure<IFoo>().AfterResolve( ( c, foo ) => ( ( IFoo ) foo ).Text = "bleh" );
+				container.Configure<InjectCallback>().AfterResolve( ( c, ic ) => ( ( InjectCallback ) ic ).Number = 42 );
+				container.Register.Type<InjectCallback>();
 
-				container.Register.Type<Foo>();
-
-				var fooResolved = container.Resolve<Foo>();
-
-				Assert.AreEqual( "bleh", fooResolved.Text );
+				var injectCallback = container.Resolve<InjectCallback>();
+				Assert.AreEqual( 42, injectCallback.Number );
 			}
 		}
 
@@ -43,14 +109,14 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<AfterInjection>().InjectProperty( "InjectMe" );
-				container.Configure<AfterInjection>().InjectMethod( "Init" );
+				container.Configure<MethodInjectedLast>().InjectProperty( "InjectMe" );
+				container.Configure<MethodInjectedLast>().InjectMethod( "Init" );
 
 				const bool thisIsTrue = true;
 				container.Register.Instance( thisIsTrue );
-				container.Register.Type<AfterInjection>();
+				container.Register.Type<MethodInjectedLast>();
 
-				var afterInjection = container.Resolve<AfterInjection>();
+				var afterInjection = container.Resolve<MethodInjectedLast>();
 				Assert.IsNotNull( afterInjection );
 				Assert.IsTrue( afterInjection.InitWasCalled );
 			}
@@ -84,7 +150,6 @@ namespace Autowire.Tests
 
 				using( var childContainer = container.CreateChild() )
 				{
-					childContainer.Configure<AutoInjectConstructor>().Argument( Argument.Create( "barNotInjected", new Bar() ) );
 					childContainer.Configure<AutoInjectConstructor>().Argument( Argument.Named( "barInjected", "bar" ) );
 
 					childContainer.Register.Type<AutoInjectConstructor>().WithScope( Scope.Singleton );
@@ -101,7 +166,6 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<AutoInjectConstructor>().Argument( Argument.Create( "barNotInjected", NullArg.New<Bar>() ) );
 				container.Configure<AutoInjectConstructor>().Argument( Argument.Named( "barInjected", "bar" ) );
 
 				container.Register.Type<AutoInjectConstructor>();
@@ -116,28 +180,5 @@ namespace Autowire.Tests
 				}
 			}
 		}
-	}
-
-	internal sealed class Disposable : IDisposable
-	{
-		public bool IsDisposed { get; private set; }
-
-		public void Dispose()
-		{
-			IsDisposed = true;
-		}
-	}
-
-	internal sealed class AfterInjection
-	{
-		private void Init()
-		{
-			Assert.IsTrue( InjectMe );
-			InitWasCalled = true;
-		}
-
-		private bool InjectMe { get; set; }
-
-		public bool InitWasCalled { get; private set; }
 	}
 }

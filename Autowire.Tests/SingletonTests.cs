@@ -6,6 +6,19 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class SingletonTests
 	{
+		#region Testobjects: IBar, Bar, IFoo, Foo
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private interface IFoo {}
+
+		private sealed class Foo : IFoo
+		{
+			public Foo( IBar bar ) {}
+		}
+		#endregion
+
 		[Test]
 		public void ConfigureSingleton()
 		{

@@ -5,6 +5,31 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class ArgumentTests
 	{
+		#region Testobjects: IBar, Bar, IFoo, Foo
+		// ReSharper disable ClassNeverInstantiated.Local
+
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private interface IFoo
+		{
+			IBar Bar { get; }
+		}
+
+		private sealed class Foo : IFoo
+		{
+			public Foo( IBar bar )
+			{
+				Bar = bar;
+			}
+
+			public IBar Bar { get; private set; }
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		#endregion
+
 		[Test]
 		[Description( "Resolve a Foo which needs a Bar, that needs to be auto-injected." )]
 		public void AutoinjectArgument()

@@ -6,6 +6,28 @@ namespace Autowire.Tests
 	[TestFixture]
 	internal class ResolveFuncTests
 	{
+		#region Test objects: IBar, Bar, FuncTestObject
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable MemberHidesStaticFromOuterClass
+
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private class FuncTestObject
+		{
+			public FuncTestObject( Func<IBar> barFactory )
+			{
+				Bar = barFactory();
+			}
+
+			public IBar Bar { get; private set; }
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore MemberHidesStaticFromOuterClass
+		#endregion
+
 		[Test]
 		public void ResolveSimpleFunc()
 		{
@@ -21,15 +43,5 @@ namespace Autowire.Tests
 				Assert.IsInstanceOfType( typeof( IBar ), factoryTestClass.Bar );
 			}
 		}
-	}
-
-	internal class FuncTestObject
-	{
-		public FuncTestObject( Func<IBar> barFactory )
-		{
-			Bar = barFactory();
-		}
-
-		public IBar Bar { get; set; }
 	}
 }

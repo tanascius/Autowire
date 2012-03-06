@@ -5,8 +5,9 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class ArgumentTests
 	{
-		#region Testobjects: IBar, Bar, IFoo, Foo
+		#region Testobjects: IBar, Bar, IFoo, Foo, Foo2
 		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable MemberHidesStaticFromOuterClass
 
 		private interface IBar {}
 
@@ -27,6 +28,17 @@ namespace Autowire.Tests
 			public IBar Bar { get; private set; }
 		}
 
+		private sealed class Foo2 : IFoo
+		{
+			public Foo2( IBar bar )
+			{
+				Bar = bar;
+			}
+
+			public IBar Bar { get; private set; }
+		}
+
+		// ReSharper restore MemberHidesStaticFromOuterClass
 		// ReSharper restore ClassNeverInstantiated.Local
 		#endregion
 
@@ -147,18 +159,5 @@ namespace Autowire.Tests
 				container.Resolve<IFoo>();
 			}
 		}
-
-		#region Objects
-		private sealed class Foo2 : IFoo
-		{
-			public Foo2( IBar bar )
-			{
-				Bar = bar;
-			}
-
-			public IBar Bar { get; private set; }
-			public string Text { get; set; }
-		}
-		#endregion
 	}
 }

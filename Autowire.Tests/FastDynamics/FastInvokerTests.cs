@@ -8,6 +8,51 @@ namespace Autowire.Tests.FastDynamics
 	[TestFixture]
 	public class FastInvokerTests
 	{
+		#region test objects: Bar
+		// ReSharper disable ClassNeverInstantiated.Local
+
+		private class Bar {}
+
+		internal class GenericTestClassForInvokationOneParameter<T>
+		{
+			public GenericTestClassForInvokationOneParameter() {}
+
+			public GenericTestClassForInvokationOneParameter( T value )
+			{
+				Property = value;
+			}
+
+			public T Property { get; set; }
+		}
+
+		internal class GenericTestClassForInvokationTwoParameters<T, TU>
+		{
+			public T Property1 { get; set; }
+			public TU Property2 { get; set; }
+		}
+
+		internal class TestClassForInvokation
+		{
+			public TestClassForInvokation() {}
+
+			public TestClassForInvokation( string arg )
+			{
+				Arg1 = arg;
+			}
+
+			public TestClassForInvokation( string arg1, int arg2 )
+			{
+				Arg1 = arg1;
+				Arg2 = arg2;
+			}
+
+			public string Arg1 { get; private set; }
+			public int Arg2 { get; private set; }
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		#endregion
+
 		[Test]
 		public void CreateInstanceNoArg()
 		{
@@ -97,43 +142,4 @@ namespace Autowire.Tests.FastDynamics
 			Assert.AreEqual( "bleh", instance.Property );
 		}
 	}
-
-	#region Testclasses
-	internal class GenericTestClassForInvokationOneParameter<T>
-	{
-		public GenericTestClassForInvokationOneParameter() {}
-
-		public GenericTestClassForInvokationOneParameter( T value )
-		{
-			Property = value;
-		}
-
-		public T Property { get; set; }
-	}
-
-	internal class GenericTestClassForInvokationTwoParameters<T, TU>
-	{
-		public T Property1 { get; set; }
-		public TU Property2 { get; set; }
-	}
-
-	internal class TestClassForInvokation
-	{
-		public TestClassForInvokation() {}
-
-		public TestClassForInvokation( string arg )
-		{
-			Arg1 = arg;
-		}
-
-		public TestClassForInvokation( string arg1, int arg2 )
-		{
-			Arg1 = arg1;
-			Arg2 = arg2;
-		}
-
-		public string Arg1 { get; private set; }
-		public int Arg2 { get; private set; }
-	}
-	#endregion
 }

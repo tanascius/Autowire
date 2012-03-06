@@ -8,6 +8,29 @@ namespace Autowire.Tests.FastDynamics
 	[TestFixture]
 	public class FastFieldSetterTests
 	{
+		#region test objects
+#pragma warning disable 649
+
+		internal sealed class TestClassForFieldSetter
+		{
+			private readonly string m_ReadonlyField;
+			private string m_PrivateField;
+			public string PublicField;
+
+			public void AssertPrivateFieldIsEqual( object value )
+			{
+				Assert.AreEqual( value, m_PrivateField );
+			}
+
+			public void AssertReadonlyFieldIsEqual( object value )
+			{
+				Assert.AreEqual( value, m_ReadonlyField );
+			}
+		}
+
+#pragma warning restore 649
+		#endregion
+
 		[Test]
 		[Description( "Set a public field" )]
 		public void SetField()
@@ -58,25 +81,4 @@ namespace Autowire.Tests.FastDynamics
 			fastFieldSetter.Set( testClassForFieldSetter, 5 );
 		}
 	}
-
-	#region Testclasses
-	internal sealed class TestClassForFieldSetter
-	{
-#pragma warning disable 649
-		private readonly string m_ReadonlyField;
-		private string m_PrivateField;
-		public string PublicField;
-#pragma warning restore 649
-
-		public void AssertPrivateFieldIsEqual( object value )
-		{
-			Assert.AreEqual( value, m_PrivateField );
-		}
-
-		public void AssertReadonlyFieldIsEqual( object value )
-		{
-			Assert.AreEqual( value, m_ReadonlyField );
-		}
-	}
-	#endregion
 }

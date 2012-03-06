@@ -7,6 +7,24 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class RegistratorTests
 	{
+		#region test obejcts: PublicMarkedType, PublicMarkedTypeWithParameter
+		// ReSharper disable ClassNeverInstantiated.Local
+
+		private sealed class PublicMarkedType {}
+
+		private sealed class PublicMarkedTypeWithParameter
+		{
+			public PublicMarkedTypeWithParameter( string argument )
+			{
+				Argument = argument;
+			}
+
+			public string Argument { get; private set; }
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		#endregion
+
 #if DEBUG
 		[Test]
 		public void RegisterAllTypes()
@@ -58,17 +76,5 @@ namespace Autowire.Tests
 					break;
 			}
 		}
-	}
-
-	public sealed class PublicMarkedType {}
-
-	public sealed class PublicMarkedTypeWithParameter
-	{
-		public PublicMarkedTypeWithParameter( string argument )
-		{
-			Argument = argument;
-		}
-
-		public string Argument { get; set; }
 	}
 }

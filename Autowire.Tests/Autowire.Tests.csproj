@@ -72,7 +72,6 @@
     <Compile Include="SetUpFixture.cs" />
     <Compile Include="SimpleTests.cs" />
     <Compile Include="SingletonTests.cs" />
-    <Compile Include="TestObjects.cs" />
     <Compile Include="ResolverTests.cs" />
     <Compile Include="FastDynamics\FastInvokerTests.cs" />
     <Compile Include="FastDynamics\FastMethodCallerTests.cs" />

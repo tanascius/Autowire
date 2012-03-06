@@ -8,6 +8,33 @@ namespace Autowire.Tests.FastDynamics
 	[TestFixture]
 	public class FastDelegateFactoryTests
 	{
+		#region test objects: IBar, Bar, IFoo, Foo
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable MemberHidesStaticFromOuterClass
+
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private interface IFoo
+		{
+			IBar Bar { get; set; }
+		}
+
+		private sealed class Foo : IFoo
+		{
+			public Foo( IBar bar )
+			{
+				Bar = bar;
+			}
+
+			public IBar Bar { get; set; }
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore MemberHidesStaticFromOuterClass
+		#endregion
+
 		[Test]
 		public void CreateDelegateNoArg()
 		{

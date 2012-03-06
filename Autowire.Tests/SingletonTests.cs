@@ -7,6 +7,8 @@ namespace Autowire.Tests
 	public class SingletonTests
 	{
 		#region Testobjects: IBar, Bar, IFoo, Foo
+		// ReSharper disable UnusedParameter.Local
+
 		private interface IBar {}
 
 		private class Bar : IBar {}
@@ -17,6 +19,8 @@ namespace Autowire.Tests
 		{
 			public Foo( IBar bar ) {}
 		}
+
+		// ReSharper restore UnusedParameter.Local
 		#endregion
 
 		[Test]

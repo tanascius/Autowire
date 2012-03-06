@@ -5,6 +5,96 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class ParameterTests
 	{
+		#region Test objects: IFoo, Foo, IBar, Bar, BarDerived, BarDerived2, Args1, Args2, Args3, Args4
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable MemberHidesStaticFromOuterClass
+		// ReSharper disable UnusedAutoPropertyAccessor.Local
+		// ReSharper disable UnusedMember.Local
+		// ReSharper disable UnusedParameter.Local
+
+		private interface IFoo
+		{
+			IBar Bar { get; }
+		}
+
+		private sealed class Foo : IFoo
+		{
+			public Foo( IBar bar )
+			{
+				Bar = bar;
+			}
+
+			public IBar Bar { get; private set; }
+		}
+
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private sealed class BarDerived : Bar {}
+
+		private sealed class BarDerived2 : Bar {}
+
+		private sealed class DuplicatedConstructor
+		{
+			public DuplicatedConstructor( IBar bar ) {}
+
+			public DuplicatedConstructor( string text ) {}
+		}
+
+		private sealed class Args1
+		{
+			public Args1( string arg ) {}
+		}
+
+		private sealed class Args2
+		{
+			public Args2( string arg1, string arg2 ) {}
+		}
+
+		private sealed class Args3
+		{
+			public Args3( string arg1, string arg2, string arg3 ) {}
+		}
+
+		private sealed class Args4
+		{
+			private string Arg1 { get; set; }
+			private string Arg2 { get; set; }
+			private string Arg3 { get; set; }
+			private string Arg4 { get; set; }
+
+			public Args4( string arg1, string arg2, string arg3, string arg4 )
+			{
+				Arg1 = arg1;
+				Arg2 = arg2;
+				Arg3 = arg3;
+				Arg4 = arg4;
+			}
+		}
+
+		private sealed class Args8
+		{
+			public Args8( string arg1, string arg2, string arg3, string arg4, string arg5, string arg6, string arg7, string arg8 ) {}
+		}
+
+		private sealed class InjectedArgument
+		{
+			public InjectedArgument( IFoo foo, IBar bar )
+			{
+				Assert.IsNotNull( foo );
+				Assert.IsInstanceOfType( typeof( Foo ), foo );
+				Assert.AreEqual( bar, foo.Bar );
+			}
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore MemberHidesStaticFromOuterClass
+		// ReSharper restore UnusedAutoPropertyAccessor.Local
+		// ReSharper restore UnusedMember.Local
+		// ReSharper restore UnusedParameter.Local
+		#endregion
+
 		[Test]
 		public void PassArgumentToConstructor()
 		{
@@ -193,13 +283,6 @@ namespace Autowire.Tests
 			}
 		}
 
-		internal sealed class DuplicatedConstructor
-		{
-			public DuplicatedConstructor( IBar bar ) {}
-
-			public DuplicatedConstructor( string text ) {}
-		}
-
 		[Test]
 		public void UseInjectedArgument()
 		{
@@ -210,21 +293,6 @@ namespace Autowire.Tests
 				container.Register.Type<InjectedArgument>();
 
 				Assert.IsNotNull( container.Resolve<InjectedArgument>() );
-			}
-		}
-
-		private sealed class Args8
-		{
-			public Args8( string arg1, string arg2, string arg3, string arg4, string arg5, string arg6, string arg7, string arg8 ) {}
-		}
-
-		private sealed class InjectedArgument
-		{
-			public InjectedArgument( IFoo foo, IBar bar )
-			{
-				Assert.IsNotNull( foo );
-				Assert.IsInstanceOfType( typeof( Foo ), foo );
-				Assert.AreEqual( bar, foo.Bar );
 			}
 		}
 	}

@@ -8,6 +8,26 @@ namespace Autowire.Tests.FastDynamics
 	[TestFixture]
 	public class FastPropertySetterTests
 	{
+		#region test objects:
+		// ReSharper disable UnusedAutoPropertyAccessor.Local
+
+		internal class TestClassForPropertySetter
+		{
+			public string PublicSetter { get; set; }
+
+			private string PrivateSetter { get; set; }
+
+			public void CheckPrivateSetter( string expected )
+			{
+				Assert.AreEqual( expected, PrivateSetter );
+			}
+		}
+
+		internal class DerivedClass : TestClassForPropertySetter {}
+
+		// ReSharper restore UnusedAutoPropertyAccessor.Local
+		#endregion
+
 		[Test]
 		public void SetProperty()
 		{
@@ -53,18 +73,4 @@ namespace Autowire.Tests.FastDynamics
 			testClassForPropertySetter.CheckPrivateSetter( "bleh" );
 		}
 	}
-
-	internal class TestClassForPropertySetter
-	{
-		public string PublicSetter { get; set; }
-
-		private string PrivateSetter { get; set; }
-
-		public void CheckPrivateSetter( string expected )
-		{
-			Assert.AreEqual( expected, PrivateSetter );
-		}
-	}
-
-	internal class DerivedClass : TestClassForPropertySetter {}
 }

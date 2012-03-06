@@ -6,48 +6,56 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests.FastDynamics
 {
-	internal class TestClassForMethodCalls
-	{
-		public string Arg1 { get; private set; }
-		public int Arg2 { get; private set; }
-
-		public void Set1Arg( string arg )
-		{
-			Arg1 = arg;
-		}
-
-		private void Set2Args( string arg1, int arg2 )
-		{
-			Arg1 = arg1;
-			Arg2 = arg2;
-		}
-	}
-
-	internal class TestClassForGenericMethodCalls<T>
-	{
-		public string MethodArg { get; private set; }
-		public T NestedArg { get; private set; }
-
-		private void UngenericMethod( string arg )
-		{
-			MethodArg = arg;
-		}
-
-		internal void SetGenericArg1<TU>( TU arg1, int anyArg1, TU arg2 )
-		{
-			MethodArg = arg1.ToString();
-		}
-
-		protected void SetGenericArg2<TU>( TU arg1, int anyArg1, T arg2 )
-		{
-			MethodArg = arg1.ToString();
-			NestedArg = arg2;
-		}
-	}
-
 	[TestFixture]
 	public class FastMethodCallerTests
 	{
+		#region test objects:
+		// ReSharper disable UnusedMember.Local
+		// ReSharper disable UnusedParameter.Local
+
+		private class TestClassForMethodCalls
+		{
+			public string Arg1 { get; private set; }
+			public int Arg2 { get; private set; }
+
+			public void Set1Arg( string arg )
+			{
+				Arg1 = arg;
+			}
+
+			private void Set2Args( string arg1, int arg2 )
+			{
+				Arg1 = arg1;
+				Arg2 = arg2;
+			}
+		}
+
+		private class TestClassForGenericMethodCalls<T>
+		{
+			public string MethodArg { get; private set; }
+			public T NestedArg { get; private set; }
+
+			private void UngenericMethod( string arg )
+			{
+				MethodArg = arg;
+			}
+
+			internal void SetGenericArg1<TU>( TU arg1, int anyArg1, TU arg2 )
+			{
+				MethodArg = arg1.ToString();
+			}
+
+			protected void SetGenericArg2<TU>( TU arg1, int anyArg1, T arg2 )
+			{
+				MethodArg = arg1.ToString();
+				NestedArg = arg2;
+			}
+		}
+
+		// ReSharper restore UnusedMember.Local
+		// ReSharper restore UnusedParameter.Local
+		#endregion
+
 		[Test]
 		public void CallMethod1Arg()
 		{

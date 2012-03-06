@@ -5,6 +5,92 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class RegisterByNameTests
 	{
+		#region Test objects: Args1, Args2, Args3, Args4
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable FieldCanBeMadeReadOnly.Local
+		// ReSharper disable MemberCanBePrivate.Local
+		// ReSharper disable RedundantDefaultFieldInitializer
+		// ReSharper disable UnusedAutoPropertyAccessor.Local
+		// ReSharper disable UnusedMember.Local
+		// ReSharper disable UnusedParameter.Local
+
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private sealed class Args1
+		{
+			public Args1( string arg ) {}
+		}
+
+		private sealed class Args2
+		{
+			public Args2( string arg1, string arg2 ) {}
+		}
+
+		private sealed class Args3
+		{
+			public Args3( string arg1, string arg2, string arg3 ) {}
+		}
+
+		private sealed class Args4
+		{
+			public string Arg1 { get; set; }
+			public string Arg2 { get; set; }
+			public string Arg3 { get; set; }
+			public string Arg4 { get; set; }
+
+			public Args4( string arg1, string arg2, string arg3, string arg4 )
+			{
+				Arg1 = arg1;
+				Arg2 = arg2;
+				Arg3 = arg3;
+				Arg4 = arg4;
+			}
+		}
+
+		private sealed class AutoInjectConstructor
+		{
+			public AutoInjectConstructor( IBar barInjected, IBar barNotInjected )
+			{
+				BarInjected = barInjected;
+				BarNotInjected = barNotInjected;
+			}
+
+			public IBar BarInjected { get; private set; }
+
+			public IBar BarNotInjected { get; private set; }
+		}
+
+		private sealed class AutoInjectNamedField
+		{
+			public IBar BarFieldInjected = null;
+		}
+
+		private sealed class AutoInjectNamedProperty
+		{
+			public IBar BarPropertyInjected { get; set; }
+		}
+
+		private sealed class AutoInjectNamedMethod
+		{
+			public IBar BarInjected { get; private set; }
+
+			public void Inject( IBar bar )
+			{
+				BarInjected = bar;
+			}
+		}
+
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore FieldCanBeMadeReadOnly.Local
+		// ReSharper restore MemberCanBePrivate.Local
+		// ReSharper restore RedundantDefaultFieldInitializer
+		// ReSharper restore UnusedAutoPropertyAccessor.Local
+		// ReSharper restore UnusedMember.Local
+		// ReSharper restore UnusedParameter.Local
+		#endregion
+
 		[Test]
 		public void RegisterByName()
 		{

@@ -6,7 +6,7 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class FeatureTests
 	{
-		#region Testobjects: IBar, Bar, IFoo, Foo
+		#region Testobjects: IBar, Bar, IFoo, Foo, InjectCallback, AutoInjectConstructor, Disposable, MethodInjectedLast
 		// ReSharper disable ClassNeverInstantiated.Local
 		// ReSharper disable MemberHidesStaticFromOuterClass
 		// ReSharper disable UnusedAutoPropertyAccessor.Local

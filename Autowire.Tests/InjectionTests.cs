@@ -5,6 +5,156 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class InjectionTests
 	{
+		#region Testclasses
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable InconsistentNaming
+		// ReSharper disable MemberHidesStaticFromOuterClass
+		// ReSharper disable UnusedAutoPropertyAccessor.Local
+		// ReSharper disable UnusedMember.Local
+		// ReSharper disable UnusedParameter.Local
+#pragma warning disable 649
+
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private sealed class AutoInjectConstructor
+		{
+			public AutoInjectConstructor( IBar barInjected, IBar barNotInjected )
+			{
+				BarInjected = barInjected;
+				BarNotInjected = barNotInjected;
+			}
+
+			public IBar BarInjected { get; private set; }
+
+			public IBar BarNotInjected { get; private set; }
+		}
+
+		private class AutoInjectField
+		{
+			public IBar BarFieldInjected;
+
+			public static IBar StaticBar;
+
+			private IBar PrivateBar;
+
+			public bool IsPrivateBarSet
+			{
+				get { return PrivateBar != null; }
+			}
+		}
+
+		private interface IAutoInjectProperty
+		{
+			IBar BarPropertyInjected { get; }
+		}
+
+		private class DerivedAutoInject : AutoInjectField, IAutoInjectProperty
+		{
+			public IBar BarPropertyInjected { get; private set; }
+		}
+
+		private sealed class AutoInjectProperty
+		{
+			public IBar BarPropertyInjected { get; set; }
+
+			public static IBar StaticBar { get; set; }
+		}
+
+		private sealed class AutoInjectMethod
+		{
+			public IBar BarInjected { get; private set; }
+
+			public IBar BarNotInjected { get; private set; }
+
+			public static IBar StaticBar { get; private set; }
+
+			public void Inject( IBar bar )
+			{
+				BarInjected = bar;
+			}
+
+			public static void StaticInject( IBar bar )
+			{
+				StaticBar = bar;
+			}
+		}
+
+		private abstract class AbstractBaseClass
+		{
+			protected IBar BaseBar { get; private set; }
+
+			public abstract IBar Bar { get; }
+		}
+
+		private sealed class DerivedFromAbstractBaseClass : AbstractBaseClass
+		{
+			private IBar m_Bar;
+
+			public override IBar Bar
+			{
+				get { return m_Bar; }
+			}
+		}
+
+		private abstract class BaseClassWithMethod
+		{
+			public IBar Bar;
+
+			private void SetBar( IBar bar )
+			{
+				Bar = bar;
+			}
+		}
+
+		private sealed class DerivedFromBaseClassWithMethod : BaseClassWithMethod {}
+
+		private sealed class InjectForOtherClass
+		{
+			private readonly DoInjectMe m_DoInjectMe = new DoInjectMe();
+			private readonly DoInjectMeToo m_DoInjectMeToo = new DoInjectMeToo();
+			private readonly AndMeToo m_AndMeToo = new AndMeToo();
+
+			public void Test()
+			{
+				Assert.IsNotNull( m_DoInjectMe.BarField );
+				Assert.IsNotNull( m_DoInjectMeToo.BarProperty );
+				Assert.IsNotNull( m_AndMeToo.Bar );
+			}
+
+			private sealed class DoInjectMe
+			{
+				public IBar BarField;
+			}
+
+			private sealed class DoInjectMeToo
+			{
+				public IBar BarProperty { get; set; }
+			}
+
+			private sealed class AndMeToo
+			{
+				public void BarMethod( IBar bar )
+				{
+					Bar = bar;
+				}
+
+				public IBar Bar;
+			}
+		}
+
+		private sealed class InjectForOtherFailsClass {}
+
+#pragma warning restore 649
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore InconsistentNaming
+		// ReSharper restore MemberHidesStaticFromOuterClass
+		// ReSharper restore UnusedAutoPropertyAccessor.Local
+		// ReSharper restore UnusedMember.Local
+		// ReSharper restore UnusedParameter.Local
+		#endregion
+
 		[Test]
 		public void UsingInjectForConstructor()
 		{
@@ -210,14 +360,14 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<InjectForOther>().InjectForComponent( "m_DoInjectMe" ).InjectField( "BarField" );
-				container.Configure<InjectForOther>().InjectForComponent( "m_DoInjectMeToo" ).InjectProperty( "BarProperty" );
-				container.Configure<InjectForOther>().InjectForComponent( "m_AndMeToo" ).InjectMethod( "BarMethod" );
+				container.Configure<InjectForOtherClass>().InjectForComponent( "m_DoInjectMe" ).InjectField( "BarField" );
+				container.Configure<InjectForOtherClass>().InjectForComponent( "m_DoInjectMeToo" ).InjectProperty( "BarProperty" );
+				container.Configure<InjectForOtherClass>().InjectForComponent( "m_AndMeToo" ).InjectMethod( "BarMethod" );
 
 				container.Register.Type<Bar>().WithScope( Scope.Singleton );
-				container.Register.Type<InjectForOther>();
+				container.Register.Type<InjectForOtherClass>();
 
-				var injectForOther = container.Resolve<InjectForOther>();
+				var injectForOther = container.Resolve<InjectForOtherClass>();
 
 				Assert.IsNotNull( injectForOther );
 				injectForOther.Test();
@@ -229,166 +379,10 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<InjectForOtherFails>().InjectForComponent( "DoInjectMe" );
+				container.Configure<InjectForOtherFailsClass>().InjectForComponent( "DoInjectMe" );
 
-				container.Register.Type<InjectForOtherFails>();
+				container.Register.Type<InjectForOtherFailsClass>();
 			}
 		}
 	}
-
-	#region Testclasses
-	internal sealed class AutoInjectConstructor
-	{
-		public AutoInjectConstructor( IBar barInjected, IBar barNotInjected )
-		{
-			BarInjected = barInjected;
-			BarNotInjected = barNotInjected;
-		}
-
-		public IBar BarInjected { get; private set; }
-
-		public IBar BarNotInjected { get; private set; }
-	}
-
-	internal class AutoInjectField
-	{
-		public IBar BarFieldInjected;
-
-		public static IBar StaticBar;
-
-#pragma warning disable 649
-		private IBar PrivateBar;
-#pragma warning restore 649
-
-		public bool IsPrivateBarSet
-		{
-			get { return PrivateBar != null; }
-		}
-	}
-
-	internal interface IAutoInjectProperty
-	{
-		IBar BarPropertyInjected { get; }
-	}
-
-	internal class DerivedAutoInject : AutoInjectField, IAutoInjectProperty
-	{
-		public IBar BarPropertyInjected { get; private set; }
-	}
-
-	internal sealed class AutoInjectNamedField
-	{
-#pragma warning disable 649
-		public IBar BarFieldInjected;
-#pragma warning restore 649
-	}
-
-	internal sealed class AutoInjectProperty
-	{
-		public IBar BarPropertyInjected { get; set; }
-
-		public static IBar StaticBar { get; set; }
-	}
-
-	internal sealed class AutoInjectNamedProperty
-	{
-		public IBar BarPropertyInjected { get; set; }
-	}
-
-	internal sealed class AutoInjectMethod
-	{
-		public IBar BarInjected { get; private set; }
-
-		public IBar BarNotInjected { get; private set; }
-
-		public static IBar StaticBar { get; set; }
-
-		public void Inject( IBar bar )
-		{
-			BarInjected = bar;
-		}
-
-		public static void StaticInject( IBar bar )
-		{
-			StaticBar = bar;
-		}
-	}
-
-	internal sealed class AutoInjectNamedMethod
-	{
-		public IBar BarInjected { get; private set; }
-
-		public void Inject( IBar bar )
-		{
-			BarInjected = bar;
-		}
-	}
-
-	internal abstract class AbstractBaseClass
-	{
-		protected IBar BaseBar { get; private set; }
-
-		public abstract IBar Bar { get; }
-	}
-
-	internal sealed class DerivedFromAbstractBaseClass : AbstractBaseClass
-	{
-#pragma warning disable 649
-		private IBar m_Bar;
-#pragma warning restore 649
-
-		public override IBar Bar
-		{
-			get { return m_Bar; }
-		}
-	}
-
-	internal abstract class BaseClassWithMethod
-	{
-		public IBar Bar;
-
-		private void SetBar( IBar bar )
-		{
-			Bar = bar;
-		}
-	}
-
-	internal sealed class DerivedFromBaseClassWithMethod : BaseClassWithMethod {}
-
-	internal sealed class InjectForOther
-	{
-		private readonly DoInjectMe m_DoInjectMe = new DoInjectMe();
-		private readonly DoInjectMeToo m_DoInjectMeToo = new DoInjectMeToo();
-		private readonly AndMeToo m_AndMeToo = new AndMeToo();
-
-		public void Test()
-		{
-			Assert.IsNotNull( m_DoInjectMe.BarField );
-			Assert.IsNotNull( m_DoInjectMeToo.BarProperty );
-			Assert.IsNotNull( m_AndMeToo.Bar );
-		}
-
-		internal sealed class DoInjectMe
-		{
-			public IBar BarField;
-		}
-
-		internal sealed class DoInjectMeToo
-		{
-			public IBar BarProperty { get; set; }
-		}
-
-		internal sealed class AndMeToo
-		{
-			public void BarMethod( IBar bar )
-			{
-				Bar = bar;
-			}
-
-			public IBar Bar;
-		}
-	}
-
-	internal sealed class InjectForOtherFails {}
-	#endregion
 }

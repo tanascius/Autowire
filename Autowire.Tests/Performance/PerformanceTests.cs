@@ -7,6 +7,74 @@ namespace Autowire.Tests.Performance
 	[TestFixture]
 	public class PerformanceTests
 	{
+		#region test objects: IBar, Bar, AutoInjectConstructorClass, AutoInjectFieldClass, AutoInjectPropertyClass, AutoInjectMethodClass
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable RedundantDefaultFieldInitializer
+		// ReSharper disable UnusedAutoPropertyAccessor.Local
+		// ReSharper disable UnusedMember.Local
+#pragma warning disable 169
+
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private sealed class AutoInjectConstructorClass
+		{
+			public AutoInjectConstructorClass( IBar barInjected )
+			{
+				BarInjected = barInjected;
+			}
+
+			private IBar BarInjected { get; set; }
+		}
+
+		private class AutoInjectFieldClass
+		{
+			public IBar BarFieldInjected = null;
+
+			public static IBar StaticBar = null;
+
+			private readonly IBar m_PrivateBar = null;
+
+			public bool IsPrivateBarSet
+			{
+				get { return m_PrivateBar != null; }
+			}
+		}
+
+		private sealed class AutoInjectPropertyClass
+		{
+			public IBar BarPropertyInjected { get; set; }
+
+			public static IBar StaticBar { get; set; }
+		}
+
+		private sealed class AutoInjectMethodClass
+		{
+			private IBar BarInjected { get; set; }
+
+			public IBar BarNotInjected { get; private set; }
+
+			private static IBar StaticBar { get; set; }
+
+			public void Inject( IBar bar )
+			{
+				BarInjected = bar;
+			}
+
+			public static void StaticInject( IBar bar )
+			{
+				StaticBar = bar;
+			}
+		}
+
+#pragma warning restore 169
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore RedundantDefaultFieldInitializer
+		// ReSharper restore UnusedAutoPropertyAccessor.Local
+		// ReSharper restore UnusedMember.Local
+		#endregion
+
 		[Test]
 		public void ResolveLotsOfObjects()
 		{
@@ -14,11 +82,11 @@ namespace Autowire.Tests.Performance
 			{
 				RegisterDynamicClasses( container );
 				container.Register.Type<Bar>();
-				for( var i = 0; i < SetUpFixture.DynamicTypes.Length; i++ )
+				foreach( var t in SetUpFixture.DynamicTypes )
 				{
-					var instance = container.Resolve( SetUpFixture.DynamicTypes[i] );
+					var instance = container.Resolve( t );
 					Assert.IsNotNull( instance );
-					Assert.IsInstanceOfType( SetUpFixture.DynamicTypes[i], instance );
+					Assert.IsInstanceOfType( t, instance );
 				}
 			}
 		}
@@ -51,10 +119,10 @@ namespace Autowire.Tests.Performance
 			using( var container = new Container( true ) )
 			{
 				RegisterDynamicClasses( container );
-				container.Configure<AutoInjectConstructor>().Argument( Argument.UserProvided( "barNotInjected" ) );
+				container.Configure<AutoInjectConstructorClass>().Argument( Argument.UserProvided( "barNotInjected" ) );
 				container.Register.Type<Bar>();
-				container.Register.Type<AutoInjectConstructor>();
-				MeasureTestcase( () => container.Resolve<AutoInjectConstructor>( NullArg.New<IBar>() ) );
+				container.Register.Type<AutoInjectConstructorClass>();
+				MeasureTestcase( () => container.Resolve<AutoInjectConstructorClass>( NullArg.New<IBar>() ) );
 			}
 		}
 
@@ -64,10 +132,10 @@ namespace Autowire.Tests.Performance
 			using( var container = new Container( true ) )
 			{
 				RegisterDynamicClasses( container );
-				container.Configure<AutoInjectField>().InjectField( "BarFieldInjected" );
+				container.Configure<AutoInjectFieldClass>().InjectField( "BarFieldInjected" );
 				container.Register.Type<Bar>();
-				container.Register.Type<AutoInjectField>();
-				MeasureTestcase( () => container.Resolve<AutoInjectField>() );
+				container.Register.Type<AutoInjectFieldClass>();
+				MeasureTestcase( () => container.Resolve<AutoInjectFieldClass>() );
 			}
 		}
 
@@ -77,10 +145,10 @@ namespace Autowire.Tests.Performance
 			using( var container = new Container( true ) )
 			{
 				RegisterDynamicClasses( container );
-				container.Configure<AutoInjectProperty>().InjectProperty( "BarPropertyInjected" );
+				container.Configure<AutoInjectPropertyClass>().InjectProperty( "BarPropertyInjected" );
 				container.Register.Type<Bar>();
-				container.Register.Type<AutoInjectProperty>();
-				MeasureTestcase( () => container.Resolve<AutoInjectProperty>() );
+				container.Register.Type<AutoInjectPropertyClass>();
+				MeasureTestcase( () => container.Resolve<AutoInjectPropertyClass>() );
 			}
 		}
 
@@ -90,18 +158,18 @@ namespace Autowire.Tests.Performance
 			using( var container = new Container( true ) )
 			{
 				RegisterDynamicClasses( container );
-				container.Configure<AutoInjectMethod>().InjectMethod( "Inject" );
+				container.Configure<AutoInjectMethodClass>().InjectMethod( "Inject" );
 				container.Register.Type<Bar>();
-				container.Register.Type<AutoInjectMethod>();
-				MeasureTestcase( () => container.Resolve<AutoInjectMethod>() );
+				container.Register.Type<AutoInjectMethodClass>();
+				MeasureTestcase( () => container.Resolve<AutoInjectMethodClass>() );
 			}
 		}
 
 		private static void RegisterDynamicClasses( IContainer container )
 		{
-			for( var i = 0; i < SetUpFixture.DynamicTypes.Length; i++ )
+			foreach( var t in SetUpFixture.DynamicTypes )
 			{
-				container.Register.Type( SetUpFixture.DynamicTypes[i] );
+				container.Register.Type( t );
 			}
 		}
 

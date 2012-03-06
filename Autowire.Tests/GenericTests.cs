@@ -7,6 +7,47 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class GenericTests
 	{
+		#region Test objects: Bar, GenericClass, ComplexGenericClass
+		// ReSharper disable UnusedMember.Local
+		// ReSharper disable UnusedParameter.Local
+
+		private class Bar {}
+
+		private sealed class GenericClass<T>
+		{
+			public GenericClass() {}
+
+			public GenericClass( T genericValue, string value )
+			{
+				Value = genericValue;
+				StringValue = value;
+			}
+
+			public GenericClass( T genericValue )
+			{
+				Value = genericValue;
+			}
+
+			public GenericClass( string value )
+			{
+				StringValue = value;
+			}
+
+			public T Value { get; private set; }
+			public string StringValue { get; private set; }
+		}
+
+		private sealed class ComplexGenericClass<T>
+		{
+			public ComplexGenericClass( KeyValuePair<T, IEnumerable<T>> pair ) {}
+
+			public ComplexGenericClass( T arg ) {}
+		}
+
+		// ReSharper restore UnusedMember.Local
+		// ReSharper restore UnusedParameter.Local
+		#endregion
+
 		[Test]
 		public void RegisterAndResolveGeneric()
 		{
@@ -147,36 +188,5 @@ namespace Autowire.Tests
 				Assert.IsNotNull( genericClass );
 			}
 		}
-	}
-
-	internal sealed class GenericClass<T>
-	{
-		public GenericClass() {}
-
-		public GenericClass( T genericValue, string value )
-		{
-			Value = genericValue;
-			StringValue = value;
-		}
-
-		public GenericClass( T genericValue )
-		{
-			Value = genericValue;
-		}
-
-		public GenericClass( string value )
-		{
-			StringValue = value;
-		}
-
-		public T Value { get; private set; }
-		public string StringValue { get; private set; }
-	}
-
-	internal sealed class ComplexGenericClass<T>
-	{
-		public ComplexGenericClass( KeyValuePair<T, IEnumerable<T>> pair ) {}
-
-		public ComplexGenericClass( T arg ) {}
 	}
 }

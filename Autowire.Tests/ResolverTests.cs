@@ -6,6 +6,109 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class ResolverTests
 	{
+		#region Test objects: IBar, Bar, BarDerived, BarDerived2, IFoo, Foo
+		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable MemberHidesStaticFromOuterClass
+		// ReSharper disable UnusedMember.Local
+
+		private interface IBar {}
+
+		private class Bar : IBar {}
+
+		private sealed class BarDerived : Bar {}
+
+		private sealed class BarDerived2 : Bar {}
+
+		private interface IFoo
+		{
+			IBar Bar { get; }
+		}
+
+		private sealed class Foo : IFoo
+		{
+			public Foo( IBar bar )
+			{
+				Bar = bar;
+			}
+
+			public IBar Bar { get; private set; }
+		}
+
+		private class SimpleResolverTestClass
+		{
+			private readonly Resolver<IBar> m_BarFactory;
+
+			public SimpleResolverTestClass( Resolver<IBar> barFactory )
+			{
+				m_BarFactory = barFactory;
+			}
+
+			public IBar CreateBar()
+			{
+				return m_BarFactory.Resolve();
+			}
+		}
+
+		private class AnotherSimpleResolverTestClass
+		{
+			private readonly Resolver<IBar> m_BarFactory;
+
+			public AnotherSimpleResolverTestClass( Resolver<IBar> barFactory )
+			{
+				m_BarFactory = barFactory;
+			}
+
+			public IBar CreateBar()
+			{
+				return m_BarFactory.Resolve();
+			}
+		}
+
+		private class NamedResolverTestClass
+		{
+			private readonly Resolver<IBar> m_BarFactory;
+
+			public NamedResolverTestClass( Resolver<IBar> barFactory )
+			{
+				m_BarFactory = barFactory;
+			}
+
+			public IBar CreateBar()
+			{
+				return m_BarFactory.ResolveByName( "at" );
+			}
+		}
+
+		private class ParametrizedResolverTestClass
+		{
+			private readonly Resolver<IFoo> m_FooFactory;
+
+			public ParametrizedResolverTestClass( Resolver<IFoo> fooFactory )
+			{
+				m_FooFactory = fooFactory;
+			}
+
+			public IFoo CreateFoo( IBar bar )
+			{
+				return m_FooFactory.Resolve( bar );
+			}
+		}
+
+		private class ResolveAllTestClass
+		{
+			public ResolveAllTestClass( Resolver<IBar> barFactory )
+			{
+				Bars = barFactory.ResolveAll();
+			}
+
+			public IList<IBar> Bars { get; private set; }
+		}
+
+		// ReSharper restore MemberHidesStaticFromOuterClass
+		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore UnusedMember.Local
+		#endregion
+
 		[Test]
 		public void SimpleResolver()
 		{
@@ -93,77 +196,6 @@ namespace Autowire.Tests
 
 				Assert.GreaterOrEqual( hasBars.Bars.Count, 3 );
 			}
-		}
-
-		internal class SimpleResolverTestClass
-		{
-			private readonly Resolver<IBar> m_BarFactory;
-
-			public SimpleResolverTestClass( Resolver<IBar> barFactory )
-			{
-				m_BarFactory = barFactory;
-			}
-
-			public IBar CreateBar()
-			{
-				return m_BarFactory.Resolve();
-			}
-		}
-
-		internal class AnotherSimpleResolverTestClass
-		{
-			private readonly Resolver<IBar> m_BarFactory;
-
-			public AnotherSimpleResolverTestClass( Resolver<IBar> barFactory )
-			{
-				m_BarFactory = barFactory;
-			}
-
-			public IBar CreateBar()
-			{
-				return m_BarFactory.Resolve();
-			}
-		}
-
-		internal class NamedResolverTestClass
-		{
-			private readonly Resolver<IBar> m_BarFactory;
-
-			// [Inject( "at" )]
-			public NamedResolverTestClass( Resolver<IBar> barFactory )
-			{
-				m_BarFactory = barFactory;
-			}
-
-			public IBar CreateBar()
-			{
-				return m_BarFactory.ResolveByName( "at" );
-			}
-		}
-
-		internal class ParametrizedResolverTestClass
-		{
-			private readonly Resolver<IFoo> m_FooFactory;
-
-			public ParametrizedResolverTestClass( Resolver<IFoo> fooFactory )
-			{
-				m_FooFactory = fooFactory;
-			}
-
-			public IFoo CreateFoo( IBar bar )
-			{
-				return m_FooFactory.Resolve( bar );
-			}
-		}
-
-		internal class ResolveAllTestClass
-		{
-			public ResolveAllTestClass( Resolver<IBar> barFactory )
-			{
-				Bars = barFactory.ResolveAll();
-			}
-
-			public IList<IBar> Bars { get; private set; }
 		}
 	}
 }

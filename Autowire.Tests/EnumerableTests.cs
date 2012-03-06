@@ -10,13 +10,13 @@ namespace Autowire.Tests
 		// ReSharper disable ClassNeverInstantiated.Local
 		// ReSharper disable MemberHidesStaticFromOuterClass
 
-		internal interface IBar { }
+		internal interface IBar {}
 
-		internal class Bar : IBar { }
+		internal class Bar : IBar {}
 
-		internal sealed class BarDerived : Bar { }
+		internal sealed class BarDerived : Bar {}
 
-		internal sealed class BarDerived2 : Bar { }
+		internal sealed class BarDerived2 : Bar {}
 
 		internal interface IFoo
 		{
@@ -39,12 +39,13 @@ namespace Autowire.Tests
 
 		#region Helper classes: ResolvePropertyCollection, ResolveCtorCollection, ResolverOfIEnumerableAsConstructor, ResolverOfIEnumerableAsProperty
 		// ReSharper disable ClassNeverInstantiated.Local
+		// ReSharper disable RedundantDefaultFieldInitializer
 		// ReSharper disable UnusedAutoPropertyAccessor.Local
 
 		private class ResolvePropertyCollection
 		{
 			public IEnumerable<IBar> BarsProperty { get; private set; }
-			public IEnumerable<IBar> BarsField;
+			public readonly IEnumerable<IBar> BarsField = null;
 		}
 
 		private class ResolveCtorCollection
@@ -73,6 +74,7 @@ namespace Autowire.Tests
 		}
 
 		// ReSharper restore ClassNeverInstantiated.Local
+		// ReSharper restore RedundantDefaultFieldInitializer
 		// ReSharper restore UnusedAutoPropertyAccessor.Local
 		#endregion
 

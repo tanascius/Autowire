@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.Serialization;
 using Autowire.Utils.Extensions;
 
 namespace Autowire.Utils.FastDynamics
@@ -9,8 +8,6 @@ namespace Autowire.Utils.FastDynamics
 	/// <summary>Creates a new instance of a type in a very fast and flexible way.</summary>
 	public sealed class FastInvoker
 	{
-		private delegate void InitializeHandler( object instance, object[] parameters );
-
 		private delegate object FastInvokationHandler( object[] args );
 
 		private readonly object m_LockObject = new object();
@@ -18,7 +15,6 @@ namespace Autowire.Utils.FastDynamics
 		private readonly Type m_Type;
 		private readonly Type m_BoundType;
 
-		private InitializeHandler m_InitializeHandler;
 		private FastInvokationHandler m_FastInvokationHandler;
 
 		/// <summary>Initializes a new instance of the <see cref="FastInvoker" /> class.</summary>
@@ -90,66 +86,6 @@ namespace Autowire.Utils.FastDynamics
 
 			// Compile the dynamic method and return the delegate
 			return ( FastInvokationHandler ) dynMethod.CreateDelegate( typeof( FastInvokationHandler ) );
-		}
-		#endregion
-
-		#region CreateUninitialized(), Initialize()
-		/// <summary>Create an uninitialized object by using or creating a special factory. The constructor object will not be called.</summary>
-		public object CreateUninitialized()
-		{
-			return FormatterServices.GetUninitializedObject( m_BoundType );
-		}
-
-		/// <summary>Calls the constructor of the passed object to initialize it.</summary>
-		public void Initialize( object instance, params object[] args )
-		{
-			if( m_InitializeHandler == null )
-			{
-				lock( m_LockObject )
-				{
-					if( m_InitializeHandler == null )
-					{
-						m_InitializeHandler = CreateConstructorCaller();
-					}
-				}
-			}
-			m_InitializeHandler.Invoke( instance, args );
-		}
-		#endregion
-
-		#region CreateConstructorCaller()
-		/// <summary>Create an action that will call the specified method and pass all required arguments.</summary>
-		private InitializeHandler CreateConstructorCaller()
-		{
-			var methodInfo = GetConstructor();
-			var methodSignature = new[]
-			{
-				typeof( object ), typeof( object[] )
-			};
-
-			// Create the dynamic method
-			var type = methodInfo.DeclaringType;
-			var dynMethod = new DynamicMethod( "FastConstructor_" + type.Name + "_" + methodInfo.Name, null, methodSignature, type, true );
-			var ilGenerator = dynMethod.GetILGenerator();
-
-			// First argument will be the object of which the method will be set
-			ilGenerator.Emit( OpCodes.Ldarg_0 );
-
-			// Other arguments will be passed thru - we will unbox for typechecking
-			var parameterInfos = methodInfo.GetParameters();
-			for( var i = 0; i < parameterInfos.Length; i++ )
-			{
-				ilGenerator.Emit( OpCodes.Ldarg_1 );
-				ilGenerator.Emit( OpCodes.Ldc_I4, i );
-				ilGenerator.Emit( OpCodes.Ldelem_Ref );
-				ilGenerator.Emit( OpCodes.Unbox_Any, parameterInfos[i].ParameterType );
-			}
-
-			ilGenerator.Emit( OpCodes.Call, methodInfo );
-			ilGenerator.Emit( OpCodes.Ret );
-
-			// Compile the dynamic method and return the delegate
-			return ( InitializeHandler ) dynMethod.CreateDelegate( typeof( InitializeHandler ) );
 		}
 		#endregion
 

@@ -109,7 +109,7 @@ namespace Autowire
 					// Check if we already had a constructor with the same signature
 					if( registeredKeys.Contains( key ) )
 					{
-						var message = "The type '{0}' has some constructors with the same signature.\r\nOne of them is: '{1}'\r\nMaybe all different parameters got an Inject-attribute.".FormatUi( type, constructorInfo );
+						var message = "The type '{0}' has some constructors with the same signature.\r\nOne of them is: '{1}'.".FormatUi( type, constructorInfo );
 						throw new RegisterException( type, message );
 					}
 					registeredKeys.Add( key );

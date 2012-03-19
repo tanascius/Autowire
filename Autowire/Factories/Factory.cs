@@ -6,6 +6,8 @@ using System.Reflection;
 using Autowire.Utils.Extensions;
 using Autowire.Utils.FastDynamics;
 
+// ReSharper disable ForCanBeConvertedToForeach
+
 namespace Autowire.Factories
 {
 	/// <summary>A factory for a given type's constructor that can be invoked to resolve an instance.</summary>
@@ -169,7 +171,8 @@ namespace Autowire.Factories
 				}
 			}
 
-			return true;
+			// Every user provided argument has to be used
+			return parameterIndex == args.Length;
 		}
 		#endregion
 
@@ -178,7 +181,7 @@ namespace Autowire.Factories
 		/// <param name="container">The container which is used to resolve arguments.</param>
 		/// <param name="type">The type that has to be invoked.</param>
 		/// <param name="args">All arguments which are not auto-injected.</param>
-		private object CreateInstaceWithArguments( IContainer container, Type type, object[] args )
+		private object CreateInstaceWithArguments( IContainer container, Type type, IList<object> args )
 		{
 			// Ok, so we have arguments ... at first we need to check if there are injected arguments missing
 			var userProvidedArgumentIndex = 0;
@@ -276,3 +279,5 @@ namespace Autowire.Factories
 		#endregion
 	}
 }
+
+// ReSharper restore ForCanBeConvertedToForeach

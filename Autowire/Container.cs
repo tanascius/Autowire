@@ -204,7 +204,7 @@ namespace Autowire
 					if( !m_Factories.TryGetValue( simpleKey, out factories ) )
 					{
 						// No factories found? Generate keys for all combinations of the arguments
-						var keys = ResolveKeyGenerator.GetKeys( name, type, args );
+						var keys = ResolveKeyGenerator.GetKeys( simpleKey, name, type, args );
 
 						// Try to get a matching factory
 						var factory = GetFactory( keys, type, args );
@@ -236,7 +236,7 @@ namespace Autowire
 							// Bad luck - no resolve possible
 							if( m_ThrowIfUnableToResolve )
 							{
-								throw new ResolveException( type, "The type is unknown. Maybe you are missing arguments?" );
+								throw new ResolveException( type, "The type '{0}' can not be resolved. Maybe constructor arguments are not given as expected?".FormatUi( type.Name ) );
 							}
 							return null;
 						}
@@ -254,7 +254,7 @@ namespace Autowire
 			if( factories.Count == 0 )
 			{
 				Debug.Fail( "Only an empty list of factories was resolved!" );
-				throw new ResolveException( type, "The type is unknown" );
+				throw new ResolveException( type, "The type '{0}' is unknown".FormatUi( type.Name ) );
 			}
 			if( factories.Count == 1 || factories[0].IsRegisteredByUser )
 			{

@@ -10,15 +10,13 @@ namespace Autowire.KeyGenerators
 		private readonly Type[] m_ParameterTypes;
 
 		#region static: GetKeys()
-		public static Collection<int> GetKeys( string name, Type type, params object[] args )
+		public static Collection<int> GetKeys( int simpleKey, string name, Type type, params object[] args )
 		{
 			Collection<int> calculatedKeys;
-			var key = GetSimpleKey( name, type, args );
-
-			if( !m_CalculatedKeys.TryGetValue( key, out calculatedKeys ) )
+			if( !m_CalculatedKeys.TryGetValue( simpleKey, out calculatedKeys ) )
 			{
 				calculatedKeys = new ResolveKeyGenerator( name, type, args ).GetKeys();
-				m_CalculatedKeys.Add( key, calculatedKeys );
+				m_CalculatedKeys.Add( simpleKey, calculatedKeys );
 			}
 
 			return calculatedKeys;
@@ -63,7 +61,7 @@ namespace Autowire.KeyGenerators
 				return;
 			}
 
-			// Get the remaining parameters - they will keep static
+			// Get the remaining parameters - they will be kept static in this interation
 			var remainingParameterTypes = parameterTypes.Length > 1 ? new Type[parameterTypes.Length - 1] : Type.EmptyTypes;
 			for( var i = 1; i < parameterTypes.Length; i++ )
 			{

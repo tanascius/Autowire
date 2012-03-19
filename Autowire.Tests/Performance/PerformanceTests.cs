@@ -20,12 +20,15 @@ namespace Autowire.Tests.Performance
 
 		private sealed class AutoInjectConstructorClass
 		{
-			public AutoInjectConstructorClass( IBar barInjected )
+			public AutoInjectConstructorClass( IBar barInjected, IBar barNotInjected )
 			{
 				BarInjected = barInjected;
+				BarNotInjected = barNotInjected;
 			}
 
 			private IBar BarInjected { get; set; }
+
+			private IBar BarNotInjected { get; set; }
 		}
 
 		private class AutoInjectFieldClass

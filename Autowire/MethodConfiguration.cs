@@ -7,9 +7,12 @@ namespace Autowire
 	{
 		private readonly IDictionary<string, Argument> m_Arguments = new Dictionary<string, Argument>();
 
-		public IArgumentConfiguration Argument( Argument argument )
+		IArgumentConfiguration IArgumentConfiguration.Arguments( params Argument[] arguments )
 		{
-			m_Arguments.Add( argument.ArgumentName, argument );
+			foreach( var argument in arguments )
+			{
+				m_Arguments.Add( argument.ArgumentName, argument );
+			}
 			return this;
 		}
 

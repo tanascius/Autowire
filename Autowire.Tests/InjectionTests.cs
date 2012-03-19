@@ -160,7 +160,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<AutoInjectConstructor>().Argument( Argument.UserProvided( "barNotInjected" ) );
+				container.Configure<AutoInjectConstructor>().Arguments( Argument.UserProvided( "barNotInjected" ) );
 
 				var bar = new Bar();
 				container.Register.Instance( bar );
@@ -180,7 +180,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<AutoInjectConstructor>().Argument( Argument.UserProvided( "barNotInjected" ) );
+				container.Configure<AutoInjectConstructor>().Arguments( Argument.UserProvided( "barNotInjected" ) );
 
 				container.Register.Type<Bar>().WithScope( Scope.Singleton );
 				container.Register.Type<AutoInjectConstructor>();
@@ -198,7 +198,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container( true ) )
 			{
-				container.Configure<AutoInjectConstructor>().Argument( Argument.UserProvided( "barNotInjected" ) );
+				container.Configure<AutoInjectConstructor>().Arguments( Argument.UserProvided( "barNotInjected" ) );
 
 				container.Register.Type<AutoInjectConstructor>();
 				container.Resolve<AutoInjectConstructor>( new Bar() );

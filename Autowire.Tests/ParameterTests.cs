@@ -100,7 +100,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Foo>().Argument( Argument.UserProvided( "bar" ) );
+				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
 				container.Register.Type<Foo>();
 
@@ -116,7 +116,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure( typeof( Foo ) ).Argument( Argument.UserProvided( "bar" ) );
+				container.Configure( typeof( Foo ) ).Arguments( Argument.UserProvided( "bar" ) );
 
 				container.Register.Type( typeof( Foo ) );
 
@@ -132,7 +132,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Foo>().Argument( Argument.UserProvided( "bar" ) );
+				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
 				container.Register.Type<Foo>();
 
@@ -158,7 +158,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Foo>().Argument( Argument.UserProvided( "bar" ) );
+				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
 				container.Register.Type<Foo>();
 				var foo = container.Resolve<IFoo>( NullArg.New<Bar>() );
@@ -172,7 +172,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Args1>().Argument( Argument.UserProvided( "arg" ) );
+				container.Configure<Args1>().Arguments( Argument.UserProvided( "arg" ) );
 
 				container.Register.Type<Args1>();
 
@@ -186,8 +186,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Args2>().Argument( Argument.UserProvided( "arg1" ) );
-				container.Configure<Args2>().Argument( Argument.UserProvided( "arg2" ) );
+				container.Configure<Args2>().Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
 
 				container.Register.Type<Args2>();
 
@@ -201,9 +200,8 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Args3>().Argument( Argument.UserProvided( "arg1" ) );
-				container.Configure<Args3>().Argument( Argument.UserProvided( "arg2" ) );
-				container.Configure<Args3>().Argument( Argument.UserProvided( "arg3" ) );
+				container.Configure<Args3>().Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
+				container.Configure<Args3>().Arguments( Argument.UserProvided( "arg3" ) );
 
 				container.Register.Type<Args3>();
 
@@ -217,10 +215,8 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Args4>().Argument( Argument.UserProvided( "arg1" ) );
-				container.Configure<Args4>().Argument( Argument.UserProvided( "arg2" ) );
-				container.Configure<Args4>().Argument( Argument.UserProvided( "arg3" ) );
-				container.Configure<Args4>().Argument( Argument.UserProvided( "arg4" ) );
+				container.Configure<Args4>().Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
+				container.Configure<Args4>().Arguments( Argument.UserProvided( "arg3" ), Argument.UserProvided( "arg4" ) );
 
 				container.Register.Type<Args4>();
 
@@ -234,14 +230,10 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Args8>().Argument( Argument.UserProvided( "arg1" ) );
-				container.Configure<Args8>().Argument( Argument.UserProvided( "arg2" ) );
-				container.Configure<Args8>().Argument( Argument.UserProvided( "arg3" ) );
-				container.Configure<Args8>().Argument( Argument.UserProvided( "arg4" ) );
-				container.Configure<Args8>().Argument( Argument.UserProvided( "arg5" ) );
-				container.Configure<Args8>().Argument( Argument.UserProvided( "arg6" ) );
-				container.Configure<Args8>().Argument( Argument.UserProvided( "arg7" ) );
-				container.Configure<Args8>().Argument( Argument.UserProvided( "arg8" ) );
+				container.Configure<Args8>().Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
+				container.Configure<Args8>().Arguments( Argument.UserProvided( "arg3" ), Argument.UserProvided( "arg4" ) );
+				container.Configure<Args8>().Arguments( Argument.UserProvided( "arg5" ), Argument.UserProvided( "arg6" ) );
+				container.Configure<Args8>().Arguments( Argument.UserProvided( "arg7" ), Argument.UserProvided( "arg8" ) );
 
 				container.Register.Type<Args8>();
 
@@ -256,7 +248,7 @@ namespace Autowire.Tests
 			using( var container = new Container( true ) )
 			{
 				// Configure the argument's type
-				container.Configure<Foo>().Argument( Argument.UseType<BarDerived>( "bar" ) );
+				container.Configure<Foo>().Arguments( Argument.UseType<BarDerived>( "bar" ) );
 
 				// Registere some possbile variants
 				container.Register.Type<Foo>();

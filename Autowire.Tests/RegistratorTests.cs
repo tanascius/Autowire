@@ -49,7 +49,7 @@ namespace Autowire.Tests
 				{
 					if( type == typeof( PublicMarkedTypeWithParameter ) )
 					{
-						configuration.Argument( Argument.Create( "argument", "aValue" ) );
+						configuration.Arguments( Argument.Create( "argument", "aValue" ) );
 					}
 					IgnoreExceptionTypes( type, configuration );
 				};

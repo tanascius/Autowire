@@ -122,7 +122,7 @@ namespace Autowire.Tests.Performance
 			using( var container = new Container( true ) )
 			{
 				RegisterDynamicClasses( container );
-				container.Configure<AutoInjectConstructorClass>().Argument( Argument.UserProvided( "barNotInjected" ) );
+				container.Configure<AutoInjectConstructorClass>().Arguments( Argument.UserProvided( "barNotInjected" ) );
 				container.Register.Type<Bar>();
 				container.Register.Type<AutoInjectConstructorClass>();
 				MeasureTestcase( () => container.Resolve<AutoInjectConstructorClass>( NullArg.New<IBar>() ) );

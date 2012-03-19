@@ -44,15 +44,21 @@ namespace Autowire
 		#endregion
 
 		#region Argument()
-		IArgumentConfiguration IArgumentConfiguration.Argument( Argument argument )
+		IArgumentConfiguration IArgumentConfiguration.Arguments( params Argument[] arguments )
 		{
-			m_Arguments.Add( argument.ArgumentName, argument );
+			foreach( var argument in arguments )
+			{
+				m_Arguments.Add( argument.ArgumentName, argument );
+			}
 			return this;
 		}
 
-		ITypeConfiguration ITypeConfiguration.Argument( Argument argument )
+		ITypeConfiguration ITypeConfiguration.Arguments( params Argument[] arguments )
 		{
-			m_Arguments.Add( argument.ArgumentName, argument );
+			foreach( var argument in arguments )
+			{
+				m_Arguments.Add( argument.ArgumentName, argument );
+			}
 			return this;
 		}
 		#endregion

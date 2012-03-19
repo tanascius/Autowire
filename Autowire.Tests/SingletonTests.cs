@@ -87,7 +87,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Foo>().Argument( Argument.UserProvided( "bar" ) );
+				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
 				container.Register.Type<Foo>().WithScope( Scope.Singleton );
 

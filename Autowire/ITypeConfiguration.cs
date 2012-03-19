@@ -10,7 +10,7 @@ namespace Autowire
 		/// <param name="argument">The argument that is used during construction.</param>
 		/// <returns>An <see cref="IArgumentConfiguration"/> to add other arguments.</returns>
 		[SuppressMessage( "Microsoft.Naming", "CA1719:ParameterNamesShouldNotMatchMemberNames", MessageId = "0#" )]
-		IArgumentConfiguration Argument( Argument argument );
+		IArgumentConfiguration Arguments( params Argument[] argument );
 	}
 
 	/// <summary>Allows the configuration of fields, properties and methods.</summary>
@@ -74,7 +74,7 @@ namespace Autowire
 		/// <summary>Adds an argument for the type.</summary>
 		/// <param name="argument">The argument that is used during construction.</param>
 		/// <returns>The <see cref="ITypeConfiguration"/> for further configuration.</returns>
-		new ITypeConfiguration Argument( Argument argument );
+		new ITypeConfiguration Arguments( params Argument[] argument );
 		#endregion
 
 		#region ILazyConfiguration

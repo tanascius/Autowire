@@ -131,7 +131,7 @@ namespace Autowire.Tests
 
 				using( var childContainer = container.CreateChild() )
 				{
-					childContainer.Configure<Foo>().Argument( Argument.Create( "bar", new Bar() ) );
+					childContainer.Configure<Foo>().Arguments( Argument.Create( "bar", new Bar() ) );
 
 					childContainer.Register.Type<Foo>().WithScope( Scope.Singleton );
 
@@ -150,7 +150,7 @@ namespace Autowire.Tests
 
 				using( var childContainer = container.CreateChild() )
 				{
-					childContainer.Configure<AutoInjectConstructor>().Argument( Argument.Named( "barInjected", "bar" ) );
+					childContainer.Configure<AutoInjectConstructor>().Arguments( Argument.Named( "barInjected", "bar" ) );
 
 					childContainer.Register.Type<AutoInjectConstructor>().WithScope( Scope.Singleton );
 
@@ -166,7 +166,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<AutoInjectConstructor>().Argument( Argument.Named( "barInjected", "bar" ) );
+				container.Configure<AutoInjectConstructor>().Arguments( Argument.Named( "barInjected", "bar" ) );
 
 				container.Register.Type<AutoInjectConstructor>();
 

@@ -53,9 +53,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				var config = container.Configure( typeof( GenericClass<> ) );
-				config.Argument( Argument.UserProvided( "genericValue" ) );
-				config.Argument( Argument.UserProvided( "value" ) );
+				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
 				container.Register.Type( typeof( GenericClass<> ) );
 
@@ -70,7 +68,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure( typeof( ComplexGenericClass<Bar> ) ).Argument( Argument.UserProvided( "pair" ) );
+				container.Configure( typeof( ComplexGenericClass<Bar> ) ).Arguments( Argument.UserProvided( "pair" ) );
 
 				container.Register.Type<Bar>();
 				container.Register.Type<ComplexGenericClass<Bar>>();
@@ -86,9 +84,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				var config = container.Configure( typeof( GenericClass<> ) );
-				config.Argument( Argument.UserProvided( "genericValue" ) );
-				config.Argument( Argument.UserProvided( "value" ) );
+				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
 				container.Register.Type( typeof( GenericClass<> ) );
 
@@ -105,9 +101,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				var config = container.Configure( typeof( GenericClass<> ) );
-				config.Argument( Argument.UserProvided( "genericValue" ) );
-				config.Argument( Argument.UserProvided( "value" ) );
+				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
 				container.Register.Type( typeof( GenericClass<> ) );
 
@@ -123,9 +117,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				var config = container.Configure( typeof( GenericClass<> ) );
-				config.Argument( Argument.UserProvided( "genericValue" ) );
-				config.Argument( Argument.UserProvided( "value" ) );
+				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
 				container.Register.Type( typeof( GenericClass<> ) );
 
@@ -142,9 +134,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				var config = container.Configure( typeof( GenericClass<> ) );
-				config.Argument( Argument.UserProvided( "genericValue" ) );
-				config.Argument( Argument.UserProvided( "value" ) );
+				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
 				container.Register.Type( typeof( GenericClass<> ) );
 
@@ -160,7 +150,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure( typeof( ComplexGenericClass<> ) ).Argument( Argument.UserProvided( "pair" ) );
+				container.Configure( typeof( ComplexGenericClass<> ) ).Arguments( Argument.UserProvided( "pair" ) );
 
 				container.Register.Type( typeof( Bar ) );
 				container.Register.Type( typeof( ComplexGenericClass<> ) );
@@ -178,7 +168,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure( typeof( ComplexGenericClass<> ) ).Argument( Argument.UserProvided( "pair" ) );
+				container.Configure( typeof( ComplexGenericClass<> ) ).Arguments( Argument.UserProvided( "pair" ) );
 
 				container.Register.Type( typeof( Bar ) );
 				container.Register.Type( typeof( ComplexGenericClass<> ) );

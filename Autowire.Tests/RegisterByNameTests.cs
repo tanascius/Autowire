@@ -121,7 +121,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Args1>( "name" ).Argument( Argument.UserProvided( "arg" ) );
+				container.Configure<Args1>( "name" ).Arguments( Argument.UserProvided( "arg" ) );
 
 				container.Register.Type<Args1>( "name" );
 
@@ -135,8 +135,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Args2>( "name" ).Argument( Argument.UserProvided( "arg1" ) );
-				container.Configure<Args2>( "name" ).Argument( Argument.UserProvided( "arg2" ) );
+				container.Configure<Args2>( "name" ).Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
 
 				container.Register.Type<Args2>( "name" );
 
@@ -150,9 +149,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Args3>( "name" ).Argument( Argument.UserProvided( "arg1" ) );
-				container.Configure<Args3>( "name" ).Argument( Argument.UserProvided( "arg2" ) );
-				container.Configure<Args3>( "name" ).Argument( Argument.UserProvided( "arg3" ) );
+				container.Configure<Args3>( "name" ).Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ), Argument.UserProvided( "arg3" ) );
 
 				container.Register.Type<Args3>( "name" );
 
@@ -166,10 +163,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<Args4>( "name" ).Argument( Argument.UserProvided( "arg1" ) );
-				container.Configure<Args4>( "name" ).Argument( Argument.UserProvided( "arg2" ) );
-				container.Configure<Args4>( "name" ).Argument( Argument.UserProvided( "arg3" ) );
-				container.Configure<Args4>( "name" ).Argument( Argument.UserProvided( "arg4" ) );
+				container.Configure<Args4>( "name" ).Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ), Argument.UserProvided( "arg3" ), Argument.UserProvided( "arg4" ) );
 
 				container.Register.Type<Args4>( "name" );
 
@@ -183,8 +177,8 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container( true ) )
 			{
-				container.Configure<AutoInjectConstructor>().Argument( Argument.UserProvided( "barNotInjected" ) );
-				container.Configure<AutoInjectConstructor>().Argument( Argument.Named( "barInjected", "bar" ) );
+				container.Configure<AutoInjectConstructor>().Arguments( Argument.UserProvided( "barNotInjected" ) );
+				container.Configure<AutoInjectConstructor>().Arguments( Argument.Named( "barInjected", "bar" ) );
 
 				var bar = new Bar();
 				container.Register.Instance( "bar", bar );
@@ -238,7 +232,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container() )
 			{
-				container.Configure<AutoInjectNamedMethod>().InjectMethod( "Inject" ).Argument( Argument.Named( "bar", "bar" ) );
+				container.Configure<AutoInjectNamedMethod>().InjectMethod( "Inject" ).Arguments( Argument.Named( "bar", "bar" ) );
 
 				var bar = new Bar();
 				container.Register.Instance( "bar", bar );

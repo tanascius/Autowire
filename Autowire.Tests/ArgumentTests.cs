@@ -66,7 +66,7 @@ namespace Autowire.Tests
 			using( var container = new Container() )
 			{
 				var bar = new Bar();
-				container.Configure<Foo>().Arguments( Argument.Create( "bar", bar ) );
+				container.Configure<Foo>().Arguments( Argument.Static( "bar", bar ) );
 				container.Register.Type<Foo>();
 
 				var foo = container.Resolve<IFoo>();
@@ -83,7 +83,7 @@ namespace Autowire.Tests
 			using( var container = new Container() )
 			{
 				var bar = new Bar();
-				container.Configure<IFoo>().Arguments( Argument.Create( "bar", bar ) );
+				container.Configure<IFoo>().Arguments( Argument.Static( "bar", bar ) );
 				container.Register.Type<Foo>();
 
 				var foo = container.Resolve<IFoo>();
@@ -101,8 +101,8 @@ namespace Autowire.Tests
 			{
 				var barInterface = new Bar();
 				var barForFoo = new Bar();
-				container.Configure<IFoo>().Arguments( Argument.Create( "bar", barInterface ) );
-				container.Configure<Foo>().Arguments( Argument.Create( "bar", barForFoo ) );
+				container.Configure<IFoo>().Arguments( Argument.Static( "bar", barInterface ) );
+				container.Configure<Foo>().Arguments( Argument.Static( "bar", barForFoo ) );
 				container.Register.Type<Foo>();
 				container.Register.Type<Foo2>();
 
@@ -141,7 +141,7 @@ namespace Autowire.Tests
 			using( var container = new Container( true ) )
 			{
 				var bar = new Bar();
-				container.Configure<Foo>().Arguments( Argument.Create( "bar", bar ) );
+				container.Configure<Foo>().Arguments( Argument.Static( "bar", bar ) );
 				container.Register.Type<Foo>();
 
 				container.Resolve<IFoo>( bar );

@@ -8,7 +8,7 @@ namespace Autowire
 		/// <summary>Creates a new argument with a value.</summary>
 		/// <param name="argumentName">The name of the argument as coded in the signature of the constructor or method.</param>
 		/// <param name="value">The value of the argument.</param>
-		public static Argument Create( string argumentName, object value )
+		public static Argument Static( string argumentName, object value )
 		{
 			if( value == null )
 			{

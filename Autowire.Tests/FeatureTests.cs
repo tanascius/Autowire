@@ -131,7 +131,7 @@ namespace Autowire.Tests
 
 				using( var childContainer = container.CreateChild() )
 				{
-					childContainer.Configure<Foo>().Arguments( Argument.Create( "bar", new Bar() ) );
+					childContainer.Configure<Foo>().Arguments( Argument.Static( "bar", new Bar() ) );
 
 					childContainer.Register.Type<Foo>().WithScope( Scope.Singleton );
 

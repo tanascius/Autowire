@@ -236,7 +236,10 @@ namespace Autowire
 							// Bad luck - no resolve possible
 							if( m_ThrowIfUnableToResolve )
 							{
-								throw new ResolveException( type, "The type '{0}' can not be resolved. Maybe constructor arguments are not given as expected?".FormatUi( type.Name ) );
+								var message = "The type '{0}' can not be resolved. Please check carefully:".FormatUi( type.Name ) + Environment.NewLine;
+								message += "- are all arguments provided that were configured as 'userprovided'?" + Environment.NewLine;
+								message += "- do all provided arguments have to correct type (especially valuetypes like 'long', 'int', 'double', ...)?";
+								throw new ResolveException( type, message );
 							}
 							return null;
 						}

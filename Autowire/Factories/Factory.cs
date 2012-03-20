@@ -140,6 +140,8 @@ namespace Autowire.Factories
 		#endregion
 
 		#region CanInvoke()
+		/// <summary>Checks whether this <see cref="Factory"/> can be invoked with the given arguments.</summary>
+		/// <remarks>This methos is useful in case of hash collisions, only. In that case a wrong factory with the same hash code could be returned.</remarks>
 		public bool CanInvoke( Type type, object[] args )
 		{
 			var unboundType = type.IsGenericType ? type.GetGenericTypeDefinition() : type;

@@ -61,6 +61,10 @@ namespace Autowire
 	/// <summary>Allows the configuration of a type.</summary>
 	public interface ITypeConfiguration : IMembersConfiguration, ILazyConfiguration, IArgumentConfiguration
 	{
+		/// <summary>Returns the <see cref="Type"/> that is configured.</summary>
+		/// <remarks>Useful for extension methods.</remarks>
+		Type Type { get; }
+
 		/// <summary>Sets the type to be ignored during registration.</summary>
 		/// <remarks>The type can not be registered anymore after calling this function.</remarks>
 		void Ignore();

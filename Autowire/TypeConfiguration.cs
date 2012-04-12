@@ -9,7 +9,6 @@ namespace Autowire
 	internal class TypeConfiguration : ITypeConfiguration
 	{
 		private readonly TypeConfigurationManager m_TypeConfigurationManager;
-		private readonly Type m_Type;
 		private readonly IDictionary<string, Argument> m_Arguments = new Dictionary<string, Argument>();
 		private readonly HashSet<KeyValuePair<string, string>> m_InjectedProperties = new HashSet<KeyValuePair<string, string>>();
 		private readonly HashSet<KeyValuePair<string, string>> m_InjectedFields = new HashSet<KeyValuePair<string, string>>();
@@ -19,8 +18,12 @@ namespace Autowire
 		public TypeConfiguration( TypeConfigurationManager typeConfigurationManager, Type type )
 		{
 			m_TypeConfigurationManager = typeConfigurationManager;
-			m_Type = type;
+			Type = type;
 		}
+
+		#region Type
+		public Type Type { get; private set; }
+		#endregion
 
 		#region Ignore()
 		public void Ignore()
@@ -122,10 +125,10 @@ namespace Autowire
 		public IMembersConfiguration InjectForComponent( string name )
 		{
 			// Try to get a field with the specified name
-			var fieldInfo = m_Type.GetField( name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+			var fieldInfo = Type.GetField( name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
 			if( fieldInfo == null )
 			{
-				throw new ConfigureException( m_Type, "The field '{0}' was not found.".FormatUi( name ) );
+				throw new ConfigureException( Type, "The field '{0}' was not found.".FormatUi( name ) );
 			}
 
 			m_InjectForComponents.Add( fieldInfo );

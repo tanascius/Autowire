@@ -69,6 +69,26 @@ namespace Autowire.Tests
 		}
 
 		[Test]
+		public void RegisterIgnoredTypeAsSingleton()
+		{
+			using (var container = new Container())
+			{
+				// Configure type as ignored and register
+				container.Configure<Bar>().Ignore();
+				container.Register.Type<Bar>();
+
+				// Now register an instance - without the Ignore() call it would throw an exception, here
+				var expectedBar = new Bar();
+				container.Register.Instance(expectedBar);
+
+				// Resolve -> should be the singleton
+				var resolvedBar = container.Resolve<IBar>();
+
+				Assert.AreEqual(expectedBar, resolvedBar);
+			}
+		}
+
+		[Test]
 		public void InitializeSingletonAndUseGivenInstanceWithParameters()
 		{
 			using( var container = new Container() )

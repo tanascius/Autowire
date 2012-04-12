@@ -70,17 +70,6 @@ namespace Autowire
 				throw new RegisterException( type, "Only non-abstract classes can be registered." );
 			}
 
-			// Already registered? Well, we don't throw an error - but log the problem at least
-			var typeKey = KeyGenerator.GetSimpleKey( name, type );
-			lock( m_RegisterLock )
-			{
-				if( m_RegisteredTypes.Contains( typeKey ) )
-				{
-					throw new RegisterException( type, "This type is already registered." );
-				}
-				m_RegisteredTypes.Add( typeKey );
-			}
-
 			// Get the configuration
 			var configuration = m_TypeConfigurationManager.Build( name, type );
 
@@ -90,6 +79,17 @@ namespace Autowire
 			if( configuration.IsIgnored )
 			{
 				return configuration;
+			}
+
+			// Already registered? Well, we don't throw an error - but log the problem at least
+			var typeKey = KeyGenerator.GetSimpleKey(name, type);
+			lock (m_RegisterLock)
+			{
+				if (m_RegisteredTypes.Contains(typeKey))
+				{
+					throw new RegisterException(type, "This type is already registered.");
+				}
+				m_RegisteredTypes.Add(typeKey);
 			}
 
 			// All keys of registered constructors will be kept in this hashset

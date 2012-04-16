@@ -72,6 +72,8 @@ namespace Autowire
 
 			// Get the configuration
 			var configuration = m_TypeConfigurationManager.Build( name, type );
+			OnRegistrationHandler(type, configuration);
+			m_TypeConfigurationManager.Update(name, type, configuration);
 
 			// Use the same TypeInformation for all AutowireFactories of this type ...
 			var typeInformation = new TypeInformation( m_Container, name, type, m_TypeConfigurationManager );
@@ -82,14 +84,14 @@ namespace Autowire
 			}
 
 			// Already registered? Well, we don't throw an error - but log the problem at least
-			var typeKey = KeyGenerator.GetSimpleKey(name, type);
-			lock (m_RegisterLock)
+			var typeKey = KeyGenerator.GetSimpleKey( name, type );
+			lock( m_RegisterLock )
 			{
-				if (m_RegisteredTypes.Contains(typeKey))
+				if( m_RegisteredTypes.Contains( typeKey ) )
 				{
-					throw new RegisterException(type, "This type is already registered.");
+					throw new RegisterException( type, "This type is already registered." );
 				}
-				m_RegisteredTypes.Add(typeKey);
+				m_RegisteredTypes.Add( typeKey );
 			}
 
 			// All keys of registered constructors will be kept in this hashset
@@ -180,29 +182,33 @@ namespace Autowire
 			Assembly( assembly, null );
 		}
 
-		public void Assembly( Assembly assembly, RegistrationHandler registrationHandler )
+		public void Assembly( Assembly assembly, Action<Type, ITypeConfiguration> registrationHandler )
 		{
-			var types = assembly.GetTypes();
-			foreach( var type in types )
+			if( registrationHandler != null )
 			{
-				if( type.IsAbstract || !type.IsClass )
-				{
-					continue;
-				}
+				RegistrationHandler += registrationHandler;
+			}
 
-				var name = string.Empty;
-
-				if( registrationHandler != null )
+			try
+			{
+				var types = assembly.GetTypes();
+				foreach( var type in types )
 				{
+					if( type.IsAbstract || !type.IsClass )
+					{
+						continue;
+					}
+
+					var name = string.Empty;
 					var configuration = m_TypeConfigurationManager.Build( name, type );
-					registrationHandler( type, configuration );
-					m_TypeConfigurationManager.Update( name, type, configuration );
-
 					Type( name, type ).WithScope( configuration.Scope );
 				}
-				else
+			}
+			finally
+			{
+				if( registrationHandler != null )
 				{
-					Type( name, type );
+					RegistrationHandler -= registrationHandler;
 				}
 			}
 		}
@@ -215,7 +221,7 @@ namespace Autowire
 			AssemblyByName( name, null );
 		}
 
-		public void AssemblyByName( string name, RegistrationHandler registrationHandler )
+		public void AssemblyByName( string name, Action<Type, ITypeConfiguration> registrationHandler )
 		{
 			if( !TryAssemblyByName( name, registrationHandler ) )
 			{
@@ -231,7 +237,7 @@ namespace Autowire
 			return TryAssemblyByName( name, null );
 		}
 
-		public bool TryAssemblyByName( string name, RegistrationHandler registrationHandler )
+		public bool TryAssemblyByName( string name, Action<Type, ITypeConfiguration> registrationHandler )
 		{
 			name = name.ToUpperInvariant();
 			foreach( var assembly in AppDomain.CurrentDomain.GetAssemblies() )
@@ -245,6 +251,18 @@ namespace Autowire
 			}
 			return false;
 		}
+		#endregion
+
+		#region OnRegistrationHandler(), RegistrationHandler
+		private void OnRegistrationHandler( Type type, ITypeConfiguration typeConfiguration )
+		{
+			if( RegistrationHandler != null )
+			{
+				RegistrationHandler( type, typeConfiguration );
+			}
+		}
+
+		public event Action<Type, ITypeConfiguration> RegistrationHandler;
 		#endregion
 	}
 }

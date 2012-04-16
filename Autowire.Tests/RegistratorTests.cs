@@ -45,7 +45,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container( true ) )
 			{
-				RegistrationHandler registrationHandler = delegate( Type type, ITypeConfiguration configuration )
+				Action<Type, ITypeConfiguration> registrationHandler = delegate(Type type, ITypeConfiguration configuration)
 				{
 					if( type == typeof( PublicMarkedTypeWithParameter ) )
 					{

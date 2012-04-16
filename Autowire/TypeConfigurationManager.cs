@@ -4,6 +4,7 @@ using Autowire.KeyGenerators;
 
 namespace Autowire
 {
+	/// <summary>Creates, holds and updates <see cref="TypeConfiguration"/>s, which contain the parameters given by a user for each type.</summary>
 	internal class TypeConfigurationManager
 	{
 		private readonly Dictionary<int, TypeConfiguration> m_Configurations = new Dictionary<int, TypeConfiguration>();

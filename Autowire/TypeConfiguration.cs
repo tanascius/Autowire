@@ -5,7 +5,7 @@ using Autowire.Utils.Extensions;
 
 namespace Autowire
 {
-	/// <summary>Holds the configuration of a type.</summary>
+	/// <summary>Holds the configuration given by the user of a type.</summary>
 	internal class TypeConfiguration : ITypeConfiguration
 	{
 		private readonly TypeConfigurationManager m_TypeConfigurationManager;

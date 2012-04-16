@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using Autowire.Injectors;
 using Autowire.Utils.Extensions;
-using Autowire.Utils.Tuples;
 
 namespace Autowire
 {

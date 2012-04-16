@@ -12,6 +12,10 @@ namespace Autowire
 		int Count { get; }
 #endif
 
+		///<summary>Registrationhandlers are called during the configuration of each type.</summary>
+		/// <remarks>Especially useful for registration of whole assemblies to exclude some types.</remarks>
+		event Action<Type, ITypeConfiguration> RegistrationHandler;
+
 		/// <summary>Registers a type.</summary>
 		/// <typeparam name="T">The type, that will be registered.</typeparam>
 		ILazyConfiguration Type<T>() where T : class;
@@ -51,7 +55,7 @@ namespace Autowire
 		/// <param name="assembly">The assembly to be registered.</param>
 		/// <param name="registrationHandler">Is called for every type, so that the type's scope can be set.</param>
 		[SuppressMessage( "Microsoft.Naming", "CA1719:ParameterNamesShouldNotMatchMemberNames", MessageId = "0#" )]
-		void Assembly( Assembly assembly, RegistrationHandler registrationHandler );
+		void Assembly(Assembly assembly, Action<Type, ITypeConfiguration> registrationHandler);
 
 		/// <summary>Registers all types of an assembly.</summary>
 		/// <param name="name">The name of the assembly.</param>
@@ -60,7 +64,7 @@ namespace Autowire
 		/// <summary>Registers all types of an assembly.</summary>
 		/// <param name="name">The name of the assembly.</param>
 		/// <param name="registrationHandler">Is called for every type, so that the type's scope can be set.</param>
-		void AssemblyByName( string name, RegistrationHandler registrationHandler );
+		void AssemblyByName(string name, Action<Type, ITypeConfiguration> registrationHandler);
 
 		/// <summary>Registers all types of an assembly, when the assembly can be loaded.</summary>
 		/// <param name="name">The name of the assembly.</param>
@@ -69,6 +73,6 @@ namespace Autowire
 		/// <summary>Registers all types of an assembly, when the assembly can be loaded.</summary>
 		/// <param name="name">The name of the assembly.</param>
 		/// <param name="registrationHandler">Is called for every type, so that the type's scope can be set.</param>
-		bool TryAssemblyByName( string name, RegistrationHandler registrationHandler );
+		bool TryAssemblyByName(string name, Action<Type, ITypeConfiguration> registrationHandler);
 	}
 }

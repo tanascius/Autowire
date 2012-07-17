@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests
 {
@@ -81,17 +83,17 @@ namespace Autowire.Tests
 		[Test]
 		public void GetNormalInstanceAsEnumberable()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>().WithScope( Scope.Singleton );
 
 				var bar = container.Resolve<Bar>();
-				Assert.IsNotNull( bar );
+				Assert.That( bar, Is.Not.Null );
 
 				var bars = container.ResolveAll<Bar>();
-				Assert.IsNotNull( bars );
-				Assert.AreEqual( 1, bars.Count );
-				Assert.AreEqual( bar, bars[0] );
+				Assert.That( bars, Is.Not.Null );
+				Assert.That( bars.Count, Is.EqualTo( 1 ) );
+				Assert.That( bars[0], Is.EqualTo( bar ) );
 			}
 		}
 
@@ -105,8 +107,8 @@ namespace Autowire.Tests
 				container.Register.Type<BarDerived2>();
 
 				var bars = container.ResolveAll<IBar>();
-				Assert.IsNotNull( bars );
-				Assert.AreEqual( 3, bars.Count );
+				Assert.That( bars, Is.Not.Null );
+				Assert.That( bars.Count, Is.EqualTo( 3 ) );
 			}
 		}
 
@@ -120,15 +122,8 @@ namespace Autowire.Tests
 				container.Register.Type<BarDerived2>();
 
 				var bars = container.Resolve<IEnumerable<IBar>>();
-				Assert.IsNotNull( bars );
-
-				var count = 0;
-				foreach( var bar in bars )
-				{
-					Assert.IsNotNull( bar );
-					count++;
-				}
-				Assert.AreEqual( 3, count );
+				Assert.That( bars, Is.Not.Null );
+				Assert.That( bars.Count(), Is.EqualTo( 3 ) );
 			}
 		}
 
@@ -143,16 +138,11 @@ namespace Autowire.Tests
 				container.Register.Type<ResolverOfIEnumerableAsConstructor>();
 
 				var resolver = container.Resolve<ResolverOfIEnumerableAsConstructor>();
-				Assert.IsNotNull( resolver );
+				Assert.That( resolver, Is.Not.Null );
 
 				var bars = resolver.Resolver.Resolve();
-				var count = 0;
-				foreach( var bar in bars )
-				{
-					Assert.IsNotNull( bar );
-					count++;
-				}
-				Assert.AreEqual( 3, count );
+				Assert.That( bars.Count(), Is.EqualTo( 3 ) );
+				Assert.That( bars, Is.All.Not.Null );
 			}
 		}
 
@@ -169,16 +159,11 @@ namespace Autowire.Tests
 				container.Register.Type<ResolverOfIEnumerableAsProperty>();
 
 				var resolver = container.Resolve<ResolverOfIEnumerableAsProperty>();
-				Assert.IsNotNull( resolver );
+				Assert.That( resolver, Is.Not.Null );
 
 				var bars = resolver.Resolver.Resolve();
-				var count = 0;
-				foreach( var bar in bars )
-				{
-					Assert.IsNotNull( bar );
-					count++;
-				}
-				Assert.AreEqual( 3, count );
+				Assert.That( bars.Count(), Is.EqualTo( 3 ) );
+				Assert.That( bars, Is.All.Not.Null );
 			}
 		}
 
@@ -193,15 +178,9 @@ namespace Autowire.Tests
 				container.Register.Type<ResolveCtorCollection>();
 
 				var resolveEnumTestClass = container.Resolve<ResolveCtorCollection>();
-				Assert.IsNotNull( resolveEnumTestClass );
-
-				var count = 0;
-				foreach( var bar in resolveEnumTestClass.Bars )
-				{
-					Assert.IsNotNull( bar );
-					count++;
-				}
-				Assert.AreEqual( 3, count );
+				Assert.That( resolveEnumTestClass, Is.Not.Null );
+				Assert.That( resolveEnumTestClass.Bars.Count(), Is.EqualTo( 3 ) );
+				Assert.That( resolveEnumTestClass.Bars, Is.All.Not.Null );
 			}
 		}
 
@@ -219,23 +198,11 @@ namespace Autowire.Tests
 				container.Register.Type<ResolvePropertyCollection>();
 
 				var resolveEnumTestClass = container.Resolve<ResolvePropertyCollection>();
-				Assert.IsNotNull( resolveEnumTestClass );
-
-				var count = 0;
-				foreach( var bar in resolveEnumTestClass.BarsProperty )
-				{
-					Assert.IsNotNull( bar );
-					count++;
-				}
-				Assert.AreEqual( 3, count );
-
-				count = 0;
-				foreach( var bar in resolveEnumTestClass.BarsField )
-				{
-					Assert.IsNotNull( bar );
-					count++;
-				}
-				Assert.AreEqual( 3, count );
+				Assert.That( resolveEnumTestClass, Is.Not.Null );
+				Assert.That( resolveEnumTestClass.BarsProperty.Count(), Is.EqualTo( 3 ) );
+				Assert.That( resolveEnumTestClass.BarsProperty, Is.All.Not.Null );
+				Assert.That( resolveEnumTestClass.BarsField.Count(), Is.EqualTo( 3 ) );
+				Assert.That( resolveEnumTestClass.BarsField, Is.All.Not.Null );
 			}
 		}
 	}

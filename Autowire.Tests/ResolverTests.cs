@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests
 {
@@ -73,9 +75,9 @@ namespace Autowire.Tests
 				m_BarFactory = barFactory;
 			}
 
-			public IBar CreateBar()
+			public IBar CreateBar( string name )
 			{
-				return m_BarFactory.ResolveByName( "at" );
+				return m_BarFactory.ResolveByName( name );
 			}
 		}
 
@@ -96,9 +98,9 @@ namespace Autowire.Tests
 
 		private class ResolveAllTestClass
 		{
-			public ResolveAllTestClass( Resolver<IBar> barFactory )
+			public ResolveAllTestClass( IEnumerable<IBar> barFactory )
 			{
-				Bars = barFactory.ResolveAll();
+				Bars = barFactory.ToArray();
 			}
 
 			public IList<IBar> Bars { get; private set; }
@@ -110,81 +112,85 @@ namespace Autowire.Tests
 		#endregion
 
 		[Test]
+		[Description( "Resolve an object, that can create a bar at runtime dynamically" )]
 		public void SimpleResolver()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				container.Register.Type<SimpleResolverTestClass>();
 
 				var factoryTestClass = container.Resolve<SimpleResolverTestClass>();
-				Assert.IsNotNull( factoryTestClass );
-
 				var bar = factoryTestClass.CreateBar();
-				Assert.IsNotNull( bar );
-				Assert.IsInstanceOfType( typeof( IBar ), bar );
+
+				Assert.That( bar, Is.InstanceOfType( typeof( IBar ) ) );
 			}
 		}
 
 		[Test]
+		[Description( "Resolve an object, that can create a bar at runtime dynamically. This time there are other registered types, that can resolve bars, too." )]
 		public void UseSameResolverTwice()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				container.Register.Type<SimpleResolverTestClass>();
 				container.Register.Type<AnotherSimpleResolverTestClass>();
 
 				var factoryTestClass = container.Resolve<SimpleResolverTestClass>();
-				Assert.IsNotNull( factoryTestClass );
-
 				var bar = factoryTestClass.CreateBar();
-				Assert.IsNotNull( bar );
-				Assert.IsInstanceOfType( typeof( IBar ), bar );
+
+				Assert.That( bar, Is.InstanceOfType( typeof( IBar ) ) );
 			}
 		}
 
 		[Test]
+		[Description( "Resolve an object, that can create a named bar at runtime dynamically." )]
 		public void NamedResolver()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
-				container.Register.Type<Bar>( "at" );
-				container.Register.Type<NamedResolverTestClass>( "at" );
+				container.Register.Type<NamedResolverTestClass>();
 
-				var factoryTestClass = container.ResolveByName<NamedResolverTestClass>( "at" );
-				Assert.IsNotNull( factoryTestClass );
+				// aBar is just for distraction
+				var aBar = new Bar();
+				container.Register.Instance( "a", aBar );
 
-				var bar = factoryTestClass.CreateBar();
-				Assert.IsNotNull( bar );
-				Assert.IsInstanceOfType( typeof( IBar ), bar );
+				// bBar will be resolved
+				var bBar = new Bar();
+				container.Register.Instance( "b", bBar );
+
+				var factoryTestClass = container.Resolve<NamedResolverTestClass>();
+
+				Assert.That( factoryTestClass.CreateBar( "b" ), Is.EqualTo( bBar ) );
 			}
 		}
 
 		[Test]
+		[Description( "Resolve an object, that can create foo at runtime dynamically while the neccessary bar parameter is provided during resolution." )]
 		public void ResolveFactoryWithArguments()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
+				container.Register.Type<ParametrizedResolverTestClass>();
 				container.Register.Type<Bar>();
 				container.Register.Type<Foo>();
-				container.Register.Type<ParametrizedResolverTestClass>();
 
 				var factoryTestClass = container.Resolve<ParametrizedResolverTestClass>();
-				Assert.IsNotNull( factoryTestClass );
+				var bar = new Bar();
+				var foo = factoryTestClass.CreateFoo( bar );
 
-				var foo = factoryTestClass.CreateFoo( new Bar() );
-				Assert.IsNotNull( foo );
-				Assert.IsInstanceOfType( typeof( IFoo ), foo );
+				Assert.That( foo.Bar, Is.EqualTo( bar ) );
 			}
 		}
 
 		[Test]
+		[Description( "Resolve an object, that can create a collection of all bars at runtime dynamically." )]
 		public void ResolveAllTest()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				container.Register.Type<BarDerived>();
@@ -192,9 +198,8 @@ namespace Autowire.Tests
 				container.Register.Type<ResolveAllTestClass>();
 
 				var hasBars = container.Resolve<ResolveAllTestClass>();
-				Assert.IsNotNull( hasBars );
 
-				Assert.GreaterOrEqual( hasBars.Bars.Count, 3 );
+				Assert.That( hasBars.Bars.Count, Is.EqualTo( 3 ) );
 			}
 		}
 	}

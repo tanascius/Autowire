@@ -51,7 +51,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveGeneric()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
@@ -66,7 +66,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveExternalGeneric()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure( typeof( ComplexGenericClass<Bar> ) ).Arguments( Argument.UserProvided( "pair" ) );
 
@@ -82,7 +82,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveGenericOfDifferentType()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
@@ -99,7 +99,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveGenericWithArgument()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
@@ -115,7 +115,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveGenericWith2Arguments()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
@@ -132,7 +132,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveGenericWithFixedArgument()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure( typeof( GenericClass<> ) ).Arguments( Argument.UserProvided( "genericValue" ), Argument.UserProvided( "value" ) );
 
@@ -148,7 +148,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveComplexGeneric()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure( typeof( ComplexGenericClass<> ) ).Arguments( Argument.UserProvided( "pair" ) );
 
@@ -166,7 +166,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveComplexGenericWithInjection()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure( typeof( ComplexGenericClass<> ) ).Arguments( Argument.UserProvided( "pair" ) );
 

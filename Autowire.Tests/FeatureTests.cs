@@ -80,7 +80,7 @@ namespace Autowire.Tests
 		{
 			Disposable disposable;
 
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Disposable>();
 				disposable = container.Resolve<Disposable>();
@@ -107,7 +107,7 @@ namespace Autowire.Tests
 		[Description( "Methods will be injected after properties and fields -> method injection can be used for init methods" )]
 		public void MethodInjectionCanBeUsedAsInitMethod()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<MethodInjectedLast>().InjectProperty( "InjectMe" );
 				container.Configure<MethodInjectedLast>().InjectMethod( "Init" );
@@ -164,7 +164,7 @@ namespace Autowire.Tests
 		[Test, Description( "Container registeres A (that needs B injected), creates a child container, which registriers B" )]
 		public void UseChildContainerAndChildInjection()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectConstructor>().Arguments( Argument.Named( "barInjected", "bar" ) );
 

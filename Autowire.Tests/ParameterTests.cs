@@ -98,7 +98,7 @@ namespace Autowire.Tests
 		[Test]
 		public void PassArgumentToConstructor()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
@@ -114,7 +114,7 @@ namespace Autowire.Tests
 		[Test]
 		public void PassArgumentToConstructorByGivenType()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure( typeof( Foo ) ).Arguments( Argument.UserProvided( "bar" ) );
 
@@ -130,7 +130,7 @@ namespace Autowire.Tests
 		[Test]
 		public void PassDerivedArgumentToConstructor()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
@@ -156,7 +156,7 @@ namespace Autowire.Tests
 		[Test]
 		public void PassNullArgumentToConstructor()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
@@ -170,7 +170,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolve1Arg()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Args1>().Arguments( Argument.UserProvided( "arg" ) );
 
@@ -184,7 +184,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolve2Args()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Args2>().Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
 
@@ -198,7 +198,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolve3Args()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Args3>().Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
 				container.Configure<Args3>().Arguments( Argument.UserProvided( "arg3" ) );
@@ -213,7 +213,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolve4Args()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Args4>().Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
 				container.Configure<Args4>().Arguments( Argument.UserProvided( "arg3" ), Argument.UserProvided( "arg4" ) );
@@ -228,7 +228,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolve8Args()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Args8>().Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
 				container.Configure<Args8>().Arguments( Argument.UserProvided( "arg3" ), Argument.UserProvided( "arg4" ) );
@@ -267,7 +267,7 @@ namespace Autowire.Tests
 		[ExpectedException( typeof( RegisterException ) )]
 		public void SameContructor()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				// Problem is automatic injection ... no argument is given by the user
 				// So which constructor should be used? Throw an error

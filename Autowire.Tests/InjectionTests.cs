@@ -158,7 +158,7 @@ namespace Autowire.Tests
 		[Test]
 		public void UsingInjectForConstructor()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectConstructor>().Arguments( Argument.UserProvided( "barNotInjected" ) );
 
@@ -178,7 +178,7 @@ namespace Autowire.Tests
 		[Test]
 		public void UsingDerivedInjectForConstructor()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectConstructor>().Arguments( Argument.UserProvided( "barNotInjected" ) );
 
@@ -208,7 +208,7 @@ namespace Autowire.Tests
 		[Test]
 		public void InjectField()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectField>().InjectField( "BarFieldInjected" );
 				container.Configure<AutoInjectField>().InjectField( "PrivateBar" );
@@ -241,7 +241,7 @@ namespace Autowire.Tests
 		[Test]
 		public void InjectProperty()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectProperty>().InjectProperty( "BarPropertyInjected" );
 
@@ -272,7 +272,7 @@ namespace Autowire.Tests
 		[Test]
 		public void InjectMethod()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectMethod>().InjectMethod( "Inject" );
 
@@ -304,7 +304,7 @@ namespace Autowire.Tests
 		[Test]
 		public void InjectDerivedFieldProperty()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectField>().InjectField( "BarFieldInjected" );
 				container.Configure<AutoInjectField>().InjectField( "PrivateBar" );
@@ -326,7 +326,7 @@ namespace Autowire.Tests
 		[Test]
 		public void AbstractPropertiesAreNotInjected()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>().WithScope( Scope.Singleton );
 				container.Register.Type<DerivedFromAbstractBaseClass>();
@@ -341,7 +341,7 @@ namespace Autowire.Tests
 		[Test]
 		public void BaseMethodsAreInjected()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<DerivedFromBaseClassWithMethod>().InjectMethod( "SetBar" );
 
@@ -358,7 +358,7 @@ namespace Autowire.Tests
 		[Test]
 		public void InjectForOther()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<InjectForOtherClass>().InjectForComponent( "m_DoInjectMe" ).InjectField( "BarField" );
 				container.Configure<InjectForOtherClass>().InjectForComponent( "m_DoInjectMeToo" ).InjectProperty( "BarProperty" );
@@ -377,7 +377,7 @@ namespace Autowire.Tests
 		[Test, ExpectedException( typeof( ConfigureException ) )]
 		public void InjectForOtherFails()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<InjectForOtherFailsClass>().InjectForComponent( "DoInjectMe" );
 

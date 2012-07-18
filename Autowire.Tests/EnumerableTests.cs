@@ -100,7 +100,7 @@ namespace Autowire.Tests
 		[Test]
 		public void GetAllIBars()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				container.Register.Type<BarDerived>();
@@ -115,7 +115,7 @@ namespace Autowire.Tests
 		[Test]
 		public void GetIEnumerableOfIBars()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				container.Register.Type<BarDerived>();
@@ -130,7 +130,7 @@ namespace Autowire.Tests
 		[Test]
 		public void GetConstructorResolver()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				container.Register.Type<BarDerived>();
@@ -170,7 +170,7 @@ namespace Autowire.Tests
 		[Test]
 		public void EnumerableConstructorIsInjected()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				container.Register.Type<BarDerived>();
@@ -187,7 +187,7 @@ namespace Autowire.Tests
 		[Test]
 		public void EnumerablePropertyAndFieldIsInjected()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<ResolvePropertyCollection>().InjectProperty( "BarsProperty" );
 				container.Configure<ResolvePropertyCollection>().InjectField( "BarsField" );

@@ -63,7 +63,7 @@ namespace Autowire.Tests
 		[Description( "Resolve a Foo which needs a Bar, that is given during registration." )]
 		public void UseArgumentDuringRegister()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				var bar = new Bar();
 				container.Configure<Foo>().Arguments( Argument.Static( "bar", bar ) );
@@ -80,7 +80,7 @@ namespace Autowire.Tests
 		[Description( "Resolve a Foo which needs a Bar, that is given for IFoo during registration." )]
 		public void UseArgumentOfInterfaceDuringRegister()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				var bar = new Bar();
 				container.Configure<IFoo>().Arguments( Argument.Static( "bar", bar ) );
@@ -97,7 +97,7 @@ namespace Autowire.Tests
 		[Description( "Resolve a Foo and a Foo2 which need a Bar, that is given for IFoo and Foo during registration." )]
 		public void OverwrittenArgumentDuringRegister()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				var barInterface = new Bar();
 				var barForFoo = new Bar();
@@ -120,7 +120,7 @@ namespace Autowire.Tests
 		[Description( "Resolve a Foo which needs a Bar, that is given during creation." )]
 		public void UseArgumentDuringResolve()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				var bar = new Bar();
 				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );

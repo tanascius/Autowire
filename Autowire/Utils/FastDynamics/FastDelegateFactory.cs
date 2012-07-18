@@ -36,7 +36,7 @@ namespace Autowire.Utils.FastDynamics
 				parameterTypes = parameterTypes.Concat( genericArguments.Take( genericArguments.Length - 1 ) ).ToArray();
 			}
 
-			var dynMethod = new DynamicMethod( "", returnType, parameterTypes, GetType(), true );
+			var dynMethod = new DynamicMethod( String.Empty, returnType, parameterTypes, GetType(), true );
 			var containerFieldInfo = GetType().GetField( "m_Container", BindingFlags.Instance | BindingFlags.NonPublic );
 			var ilGenerator = dynMethod.GetILGenerator();
 

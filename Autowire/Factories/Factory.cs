@@ -219,7 +219,7 @@ namespace Autowire.Factories
 						injectedArgument = container.ResolveByName( parameter.InjectedName, parameterType );
 						if( injectedArgument == null )
 						{
-							var injectedName = string.IsNullOrEmpty( parameter.InjectedName ) ? "" : ", injected name = '{0}'".FormatUi( parameter.InjectedName );
+							var injectedName = string.IsNullOrEmpty( parameter.InjectedName ) ? String.Empty : ", injected name = '{0}'".FormatUi( parameter.InjectedName );
 							var message = "The injected parameter '{0}' (of type '{1}'{2}) can not be resolved.".FormatUi( parameter.Name, parameter.Type.Name, injectedName );
 							throw new ResolveException( type, message );
 						}

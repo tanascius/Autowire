@@ -37,8 +37,10 @@ namespace Autowire
 
 		#region Constructors
 		/// <summary>Initializes a new instance of the <see cref="Container" /> class.</summary>
-		public Container()
+		public Container( bool throwIfUnableToResolve = false )
 		{
+			m_ThrowIfUnableToResolve = throwIfUnableToResolve;
+
 			// Register the Container itself
 			m_Factories.Add( typeof( IContainer ).GetHashCode(), new[]
 			{
@@ -49,13 +51,7 @@ namespace Autowire
 		}
 
 		/// <summary>Initializes a new instance of the <see cref="Container" /> class.</summary>
-		public Container( bool throwIfUnableToResolve ) : this()
-		{
-			m_ThrowIfUnableToResolve = throwIfUnableToResolve;
-		}
-
-		/// <summary>Initializes a new instance of the <see cref="Container" /> class.</summary>
-		private Container( Container parent ) : this()
+		private Container( Container parent, bool throwIfUnableToResolve = false ) : this( throwIfUnableToResolve )
 		{
 			m_Parent = parent;
 		}

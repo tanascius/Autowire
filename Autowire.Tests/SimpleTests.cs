@@ -31,7 +31,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveByClass()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				var bar = container.Resolve<Bar>();
@@ -43,7 +43,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveByInterface()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				var bar = container.Resolve<IBar>();
@@ -56,7 +56,7 @@ namespace Autowire.Tests
 		[ExpectedException( typeof( RegisterException ) )]
 		public void CannotRegisterInterface()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<IBar>();
 			}
@@ -66,7 +66,7 @@ namespace Autowire.Tests
 		[ExpectedException( typeof( RegisterException ) )]
 		public void CannotRegisterAbstractClass()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<AbstractClass>();
 			}
@@ -75,7 +75,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveDerivedType()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				// At first the base type
 				container.Register.Type<Bar>();
@@ -109,7 +109,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveDerivedTypeAndInstance()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				// At first register the derived type
 				container.Register.Type<BarDerived>();
@@ -132,7 +132,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterByGivenType()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type( typeof( Bar ) );
 				var bar = container.Resolve<IBar>();
@@ -165,7 +165,7 @@ namespace Autowire.Tests
 		[Test]
 		public void ResolveByGivenType()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>();
 				var bar = container.Resolve( typeof( IBar ) );
@@ -177,7 +177,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolveByGivenType()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type( typeof( Bar ) );
 				var bar = container.Resolve( typeof( IBar ) );
@@ -189,7 +189,7 @@ namespace Autowire.Tests
 		[Test]
 		public void ResolvePrivateConstructor()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<PrivateConstructor>();
 				var privateConstructor = container.Resolve<PrivateConstructor>();

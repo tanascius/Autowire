@@ -139,7 +139,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolve1ArgWithName()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Args1>( "name" ).Arguments( Argument.UserProvided( "arg" ) );
 
@@ -153,7 +153,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolve2ArgsWithName()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Args2>( "name" ).Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ) );
 
@@ -167,7 +167,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolve3ArgsWithName()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Args3>( "name" ).Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ), Argument.UserProvided( "arg3" ) );
 
@@ -181,7 +181,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAndResolve4ArgsWithName()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Args4>( "name" ).Arguments( Argument.UserProvided( "arg1" ), Argument.UserProvided( "arg2" ), Argument.UserProvided( "arg3" ), Argument.UserProvided( "arg4" ) );
 
@@ -233,7 +233,7 @@ namespace Autowire.Tests
 		[Test]
 		public void InjectNamedProperty()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectNamedProperty>().InjectProperty( "BarPropertyInjected", "bar" );
 
@@ -250,7 +250,7 @@ namespace Autowire.Tests
 		[Test]
 		public void InjectNamedMethod()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectNamedMethod>().InjectMethod( "Inject" ).Arguments( Argument.Named( "bar", "bar" ) );
 

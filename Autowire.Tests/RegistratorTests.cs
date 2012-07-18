@@ -29,7 +29,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterAllTypes()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Assembly( Assembly.GetExecutingAssembly(), IgnoreExceptionTypes );
 				Assert.GreaterOrEqual( container.Register.Count, 50 );

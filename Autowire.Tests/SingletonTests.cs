@@ -26,7 +26,7 @@ namespace Autowire.Tests
 		[Test]
 		public void ConfigureSingleton()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Bar>().WithScope( Scope.Singleton );
 				container.Register.Type<Bar>();
@@ -41,7 +41,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterSingleton()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>().WithScope( Scope.Singleton );
 
@@ -55,7 +55,7 @@ namespace Autowire.Tests
 		[Test]
 		public void InitializeSingletonAndUseGivenInstance()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				var bar = new Bar();
 				container.Register.Instance( bar );
@@ -71,7 +71,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterIgnoredTypeAsSingleton()
 		{
-			using (var container = new Container())
+			using( var container = new Container() )
 			{
 				// Configure type as ignored and register
 				container.Configure<Bar>().Ignore();
@@ -79,19 +79,19 @@ namespace Autowire.Tests
 
 				// Now register an instance - without the Ignore() call it would throw an exception, here
 				var expectedBar = new Bar();
-				container.Register.Instance(expectedBar);
+				container.Register.Instance( expectedBar );
 
 				// Resolve -> should be the singleton
 				var resolvedBar = container.Resolve<IBar>();
 
-				Assert.AreEqual(expectedBar, resolvedBar);
+				Assert.AreEqual( expectedBar, resolvedBar );
 			}
 		}
 
 		[Test]
 		public void InitializeSingletonAndUseGivenInstanceWithParameters()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				var foo = new Foo( new Bar() );
 				container.Register.Instance( foo );
@@ -105,7 +105,7 @@ namespace Autowire.Tests
 		[Test]
 		public void InitializeSingletonWithParameters()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
@@ -119,25 +119,9 @@ namespace Autowire.Tests
 		}
 
 		[Test]
-		public void InitializeSingletonWithDifferentCtors()
-		{
-			using( var container = new Container() )
-			{
-				container.Register.Type<Foo>().WithScope( Scope.Singleton );
-
-				var bar1 = container.Resolve<Foo>( new Bar() );
-				var bar2 = container.Resolve<Foo>( "" );
-				var bar3 = container.Resolve<Foo>();
-
-				Assert.AreEqual( bar1, bar2 );
-				Assert.AreEqual( bar2, bar3 );
-			}
-		}
-
-		[Test]
 		public void SameSingletonForEveryThread()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>().WithScope( Scope.Singleton );
 
@@ -174,7 +158,7 @@ namespace Autowire.Tests
 		[Test]
 		public void CreateOneSingletonPerThread()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>().WithScope( Scope.SingletonPerThread );
 

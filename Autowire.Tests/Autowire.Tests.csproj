@@ -66,7 +66,7 @@
     <Compile Include="ParameterTests.cs" />
     <Compile Include="Performance\PerformanceTests.cs" />
     <Compile Include="Performance\SetUpFixture.cs" />
-    <Compile Include="RegisterByNameTests.cs" />
+    <Compile Include="NamingTests.cs" />
     <Compile Include="RegistratorTests.cs" />
     <Compile Include="ResolveFuncTests.cs" />
     <Compile Include="SetUpFixture.cs" />

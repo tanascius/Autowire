@@ -152,9 +152,8 @@ namespace Autowire.Tests
 			{
 				container.Register.Type<NamedResolverTestClass>();
 
-				// aBar is just for distraction
-				var aBar = new Bar();
-				container.Register.Instance( "a", aBar );
+				// Bar "a" is just for distraction
+				container.Register.Instance( "a", new Bar() );
 
 				// bBar will be resolved
 				var bBar = new Bar();

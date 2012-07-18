@@ -1,9 +1,10 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests
 {
 	[TestFixture]
-	public class RegisterByNameTests
+	public class NamingTests
 	{
 		#region Test objects: Args1, Args2, Args3, Args4
 		// ReSharper disable ClassNeverInstantiated.Local
@@ -94,7 +95,7 @@ namespace Autowire.Tests
 		[Test]
 		public void RegisterByName()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Bar>( "bar1" ).WithScope( Scope.Singleton );
 				container.Register.Type<Bar>( "bar2" );
@@ -104,15 +105,34 @@ namespace Autowire.Tests
 				var bar2A = container.ResolveByName<IBar>( "bar2" );
 				var bar2B = container.ResolveByName<IBar>( "bar2" );
 
-				Assert.IsNotNull( bar1A );
-				Assert.IsNotNull( bar1B );
-				Assert.AreEqual( bar1A, bar1B );
+				Assert.That( bar1A, Is.Not.Null );
+				Assert.That( bar1B, Is.Not.Null );
+				Assert.That( bar1A, Is.EqualTo( bar1B ) );
 
-				Assert.IsNotNull( bar2A );
-				Assert.IsNotNull( bar2B );
-				Assert.AreNotEqual( bar2A, bar2B );
+				Assert.That( bar2A, Is.Not.Null );
+				Assert.That( bar2B, Is.Not.Null );
+				Assert.That( bar2A, Is.Not.EqualTo( bar2B ) );
 
-				Assert.AreNotEqual( bar1A, bar2A );
+				Assert.That( bar1A, Is.Not.EqualTo( bar2A ) );
+			}
+		}
+
+		[Test]
+		public void ResolveNameInstace()
+		{
+			using( var container = new Container( true ) )
+			{
+
+				// Bar "a" is just for distraction
+				container.Register.Instance( "a", new Bar() );
+
+				// bBar will be resolved
+				var bBar = new Bar();
+				container.Register.Instance( "b", bBar );
+
+				var resolvedBar = container.ResolveByName<IBar>( "b" );
+
+				Assert.That( resolvedBar, Is.EqualTo( bBar ) );
 			}
 		}
 

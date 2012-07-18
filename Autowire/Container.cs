@@ -233,6 +233,14 @@ namespace Autowire
 								return ResolveAllByNameHelper( container, name, parameterType );
 							}
 
+							// Here we try some "magic". When the first argument is a string, we try to handle it as a name
+							// This is neccessary for Func<string, Bar> where the string value could be the name of the Bar instead of an argument
+							if( args.Length != 0 && args[0].GetType() == typeof( string ) )
+							{
+								var remainingArgs = args.Skip( 1 ).ToArray();
+								return ResolveHelper( container, args[0].ToString(), type, 0, remainingArgs );
+							}
+
 							// Bad luck - no resolve possible
 							if( m_ThrowIfUnableToResolve )
 							{

@@ -1,9 +1,10 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests
 {
 	[TestFixture]
-	public class SimpleTests
+	public class BasicTests
 	{
 		#region Testobjects: IBar, Bar, BarDerived, BarDerived2, AbstractClass, PrivateConstructor
 		// ReSharper disable ClassNeverInstantiated.Local
@@ -13,9 +14,9 @@ namespace Autowire.Tests
 
 		private class Bar : IBar {}
 
-		private sealed class BarDerived : Bar { }
+		private sealed class BarDerived : Bar {}
 
-		private sealed class BarDerived2 : Bar { }
+		private sealed class BarDerived2 : Bar {}
 
 		private abstract class AbstractClass {}
 
@@ -29,6 +30,7 @@ namespace Autowire.Tests
 		#endregion
 
 		[Test]
+		[Description( "Register a type. Resolve it." )]
 		public void RegisterAndResolveByClass()
 		{
 			using( var container = new Container( true ) )
@@ -36,11 +38,12 @@ namespace Autowire.Tests
 				container.Register.Type<Bar>();
 				var bar = container.Resolve<Bar>();
 
-				Assert.IsNotNull( bar );
+				Assert.That( bar, Is.Not.Null );
 			}
 		}
 
 		[Test]
+		[Description( "Register a type. Resolve a class by an interface of that type." )]
 		public void RegisterAndResolveByInterface()
 		{
 			using( var container = new Container( true ) )
@@ -48,11 +51,12 @@ namespace Autowire.Tests
 				container.Register.Type<Bar>();
 				var bar = container.Resolve<IBar>();
 
-				Assert.IsNotNull( bar );
+				Assert.That( bar, Is.Not.Null );
 			}
 		}
 
 		[Test]
+		[Description( "Register an interface should fail." )]
 		[ExpectedException( typeof( RegisterException ) )]
 		public void CannotRegisterInterface()
 		{
@@ -63,6 +67,7 @@ namespace Autowire.Tests
 		}
 
 		[Test]
+		[Description( "Register an abstract class should fail." )]
 		[ExpectedException( typeof( RegisterException ) )]
 		public void CannotRegisterAbstractClass()
 		{
@@ -73,6 +78,7 @@ namespace Autowire.Tests
 		}
 
 		[Test]
+		[Description( "Register a base type and a derived type. Resolve a base class." )]
 		public void RegisterAndResolveDerivedType()
 		{
 			using( var container = new Container( true ) )
@@ -85,13 +91,12 @@ namespace Autowire.Tests
 
 				// Should be no problem althought we have two possible resolves, now
 				// That is, because the basetype was registered at least once explicitly
-				var bar = container.Resolve<Bar>();
-
-				Assert.IsNotNull( bar );
+				container.Resolve<Bar>();
 			}
 		}
 
 		[Test]
+		[Description( "Register two derived types. Resolvíng a base class (that was not explicitly registered) should fail." )]
 		[ExpectedException( typeof( ResolveException ) )]
 		public void RegisterAndResolveDerivedTypeFails()
 		{
@@ -107,6 +112,7 @@ namespace Autowire.Tests
 		}
 
 		[Test]
+		[Description( "Register a derived type. Resolvíng a base class (that was not explicitly registered). Register the base class explicitly. Now resolve it a again." )]
 		public void RegisterAndResolveDerivedTypeAndInstance()
 		{
 			using( var container = new Container( true ) )
@@ -115,21 +121,22 @@ namespace Autowire.Tests
 				container.Register.Type<BarDerived>();
 
 				// Resolve the base type
-				container.Resolve<Bar>();
+				var implicitlyResolvedBar = container.Resolve<Bar>();
 
-				// Now the basetype itself ...
+				// Now register the base type itself ...
 				var bar = new Bar();
 				container.Register.Instance( bar );
 
-				// Should be no problem, though
-				var barResolved = container.Resolve<Bar>();
+				// Resolve will return the explicitly registered base type
+				var explicitlyResolvedBar = container.Resolve<Bar>();
 
-				Assert.IsNotNull( barResolved );
-				Assert.AreEqual( bar, barResolved );
+				Assert.That( explicitlyResolvedBar, Is.EqualTo( bar ) );
+				Assert.That( explicitlyResolvedBar, Is.Not.EqualTo( implicitlyResolvedBar ) );
 			}
 		}
 
 		[Test]
+		[Description( "Register a type without using generics. Resolve it." )]
 		public void RegisterByGivenType()
 		{
 			using( var container = new Container( true ) )
@@ -137,22 +144,23 @@ namespace Autowire.Tests
 				container.Register.Type( typeof( Bar ) );
 				var bar = container.Resolve<IBar>();
 
-				Assert.IsNotNull( bar );
+				Assert.That( bar, Is.Not.Null );
 			}
 		}
 
 		[Test]
+		[Description( "Resolve a class that is not registered. The container is configured not to throw an exception, so the resolved value will be null." )]
 		public void ResolveUnknownType()
 		{
 			using( var container = new Container() )
 			{
 				var instance = container.Resolve<IBar>();
-
 				Assert.IsNull( instance );
 			}
 		}
 
 		[Test]
+		[Description( "Resolve a class that is not registered. The container is configured to throw an exception." )]
 		[ExpectedException( typeof( ResolveException ) )]
 		public void ResolveUnknownTypeWithException()
 		{
@@ -163,6 +171,7 @@ namespace Autowire.Tests
 		}
 
 		[Test]
+		[Description( "Register a type. Resolve it without using generics." )]
 		public void ResolveByGivenType()
 		{
 			using( var container = new Container( true ) )
@@ -170,11 +179,12 @@ namespace Autowire.Tests
 				container.Register.Type<Bar>();
 				var bar = container.Resolve( typeof( IBar ) );
 
-				Assert.IsNotNull( bar );
+				Assert.That( bar, Is.Not.Null );
 			}
 		}
 
 		[Test]
+		[Description( "Register a type without using generics. Resolve it without using generics." )]
 		public void RegisterAndResolveByGivenType()
 		{
 			using( var container = new Container( true ) )
@@ -182,11 +192,12 @@ namespace Autowire.Tests
 				container.Register.Type( typeof( Bar ) );
 				var bar = container.Resolve( typeof( IBar ) );
 
-				Assert.IsNotNull( bar );
+				Assert.That( bar, Is.Not.Null );
 			}
 		}
 
 		[Test]
+		[Description( "Register a type with a private constructor, only. Resolve it." )]
 		public void ResolvePrivateConstructor()
 		{
 			using( var container = new Container( true ) )
@@ -194,7 +205,7 @@ namespace Autowire.Tests
 				container.Register.Type<PrivateConstructor>();
 				var privateConstructor = container.Resolve<PrivateConstructor>();
 
-				Assert.IsNotNull( privateConstructor );
+				Assert.That( privateConstructor, Is.Not.Null );
 			}
 		}
 	}

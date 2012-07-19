@@ -7,8 +7,12 @@ namespace Autowire.Tests
 	[TestFixture]
 	public class RegistratorTests
 	{
-		#region test obejcts: PublicMarkedType, PublicMarkedTypeWithParameter
+		#region test obejcts: IBar, Bar, PublicMarkedType, PublicMarkedTypeWithParameter
 		// ReSharper disable ClassNeverInstantiated.Local
+
+		private interface IBar { }
+
+		private class Bar : IBar { }
 
 		private sealed class PublicMarkedType {}
 
@@ -60,6 +64,21 @@ namespace Autowire.Tests
 
 				Assert.IsNotNull( typeWithParameter );
 				Assert.AreEqual( "aValue", typeWithParameter.Argument );
+			}
+		}
+
+		[Test]
+		[Description( "" )]
+		[ExpectedException( typeof( ResolveException ) )]
+		public void RegisterIgnoredType()
+		{
+			using( var container = new Container( true ) )
+			{
+				// Configure type as ignored and register
+				container.Configure<Bar>().Ignore();
+				container.Register.Type<Bar>();
+
+				container.Resolve<IBar>();
 			}
 		}
 

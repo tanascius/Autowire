@@ -150,7 +150,7 @@ namespace Autowire
 			var typeKey = KeyGenerator.GetSimpleKey( name, type );
 			if( m_RegisteredTypes.Contains( typeKey ) )
 			{
-				throw new InvalidOperationException( "Tried to register '{0}' again.".FormatUi( type.Name ) );
+				throw new RegisterException( type, "Tried to register '{0}' again.".FormatUi( type.Name ) );
 			}
 			m_RegisteredTypes.Add( typeKey );
 

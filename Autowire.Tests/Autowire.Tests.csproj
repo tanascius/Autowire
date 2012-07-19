@@ -70,7 +70,7 @@
     <Compile Include="RegistratorTests.cs" />
     <Compile Include="ResolveFuncTests.cs" />
     <Compile Include="SetUpFixture.cs" />
-    <Compile Include="SimpleTests.cs" />
+    <Compile Include="BasicTests.cs" />
     <Compile Include="SingletonTests.cs" />
     <Compile Include="ResolverTests.cs" />
     <Compile Include="FastDynamics\FastInvokerTests.cs" />

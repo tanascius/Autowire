@@ -145,8 +145,8 @@ namespace Autowire.Tests
 
 				container.Register.Type<Args1>( "name" );
 
-				Assert.IsNotNull( container.ResolveByName<Args1>( "name", "a" ) );
-				Assert.IsNotNull( container.ResolveByName( "name", typeof( Args1 ), "a" ) );
+				Assert.That( container.ResolveByName<Args1>( "name", "a" ), Is.Not.Null );
+				Assert.That( container.ResolveByName( "name", typeof( Args1 ), "a" ), Is.Not.Null );
 			}
 		}
 

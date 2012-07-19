@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests
 {
@@ -24,6 +25,7 @@ namespace Autowire.Tests
 		#endregion
 
 		[Test]
+		[Description( "Configure a singleton. Register the type. Resolve it twice." )]
 		public void ConfigureSingleton()
 		{
 			using( var container = new Container( true ) )
@@ -34,11 +36,12 @@ namespace Autowire.Tests
 				var bar1 = container.Resolve<Bar>();
 				var bar2 = container.Resolve<Bar>();
 
-				Assert.AreEqual( bar1, bar2 );
+				Assert.That( bar1, Is.EqualTo( bar2 ) );
 			}
 		}
 
 		[Test]
+		[Description( "Register a type as singleton. Resolve it twice." )]
 		public void RegisterSingleton()
 		{
 			using( var container = new Container( true ) )
@@ -48,11 +51,12 @@ namespace Autowire.Tests
 				var bar1 = container.Resolve<Bar>();
 				var bar2 = container.Resolve<Bar>();
 
-				Assert.AreEqual( bar1, bar2 );
+				Assert.That( bar1, Is.EqualTo( bar2 ) );
 			}
 		}
 
 		[Test]
+		[Description( "Register an instance. Resolve it twice via interface and type." )]
 		public void InitializeSingletonAndUseGivenInstance()
 		{
 			using( var container = new Container( true ) )
@@ -63,33 +67,33 @@ namespace Autowire.Tests
 				var bar1 = container.Resolve<IBar>();
 				var bar2 = container.Resolve<Bar>();
 
-				Assert.AreEqual( bar, bar1 );
-				Assert.AreEqual( bar1, bar2 );
+				Assert.That( bar1, Is.EqualTo( bar ) );
+				Assert.That( bar2, Is.EqualTo( bar ) );
 			}
 		}
 
 		[Test]
+		[Description( "Ignore a type. Register an instance of it. Resolve it." )]
 		public void RegisterIgnoredTypeAsSingleton()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( true ) )
 			{
-				// Configure type as ignored and register
+				// Configure type as ignored
 				container.Configure<Bar>().Ignore();
-				container.Register.Type<Bar>();
 
-				// Now register an instance - without the Ignore() call it would throw an exception, here
-				var expectedBar = new Bar();
-				container.Register.Instance( expectedBar );
+				// Now register an instance
+				var bar = new Bar();
+				container.Register.Instance( bar );
 
-				// Resolve -> should be the singleton
 				var resolvedBar = container.Resolve<IBar>();
 
-				Assert.AreEqual( expectedBar, resolvedBar );
+				Assert.That( resolvedBar, Is.EqualTo( bar ) );
 			}
 		}
 
 		[Test]
-		public void InitializeSingletonAndUseGivenInstanceWithParameters()
+		[Description( "Register an instance with a argument. Resolve it without giving the argument." )]
+		public void InitializeSingletonInstanceWithParameter()
 		{
 			using( var container = new Container( true ) )
 			{
@@ -98,12 +102,13 @@ namespace Autowire.Tests
 
 				var resolvedFoo = container.Resolve<Foo>();
 
-				Assert.AreEqual( foo, resolvedFoo );
+				Assert.That( resolvedFoo, Is.EqualTo( foo ) );
 			}
 		}
 
 		[Test]
-		public void InitializeSingletonWithParameters()
+		[Description( "Register a singleton type with an user provided argument. Resolve it." )]
+		public void InitializeSingletonWithParameter()
 		{
 			using( var container = new Container( true ) )
 			{
@@ -111,10 +116,12 @@ namespace Autowire.Tests
 
 				container.Register.Type<Foo>().WithScope( Scope.Singleton );
 
-				container.Resolve<IFoo>( new Bar() );
-				var resolvedFoo = container.Resolve<IFoo>();
+				var firstResolve = container.Resolve<IFoo>( new Bar() );
+				var secondResolve = container.Resolve<IFoo>( new Bar() );
+				var thirdResolve = container.Resolve<IFoo>();
 
-				Assert.IsNotNull( resolvedFoo );
+				Assert.That( secondResolve, Is.EqualTo( firstResolve ) );
+				Assert.That( thirdResolve, Is.EqualTo( firstResolve ) );
 			}
 		}
 

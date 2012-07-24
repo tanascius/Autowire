@@ -22,15 +22,5 @@ namespace Autowire.Utils.Extensions
 		}
 		#endregion
 
-		#region ToString()
-		/// <summary>Returns a <see cref="string"/> that represents the current <see cref="object"/>. If the object is null the given defaultValue will be returned.</summary>
-		/// <param name="convertToString">The object that will be represented as a string.</param>
-		/// <param name="defaultValue">The default value for null objects.</param>
-		/// <returns>A stringrepresentation of the given object.</returns>
-		public static string ToString( this object convertToString, string defaultValue )
-		{
-			return convertToString != null ? convertToString.ToString() : defaultValue;
-		}
-		#endregion
 	}
 }

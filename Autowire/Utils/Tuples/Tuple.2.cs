@@ -1,7 +1,9 @@
+#if NET35
+using System;
+using System.Collections.Generic;
+
 namespace Autowire.Utils.Tuples
 {
-#if NET35
-
 	/// <summary>Holds two values.</summary>
 	/// <typeparam name="TItem1">Type of the first value.</typeparam>
 	/// <typeparam name="TItem2">Type of the second value.</typeparam>
@@ -49,6 +51,6 @@ namespace Autowire.Utils.Tuples
 			return EqualityComparer<TItem1>.Default.GetHashCode( Item1 ) * 37 + EqualityComparer<TItem2>.Default.GetHashCode( Item2 );
 		}
 	}
+}
 
 #endif
-}

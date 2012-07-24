@@ -8,5 +8,8 @@ namespace Autowire
 	{
 		/// <summary>Initializes a new instance of the <see cref="AutowireException" /> class.</summary>
 		protected AutowireException( string message ) : base( message ) {}
+
+		/// <summary>Initializes a new instance of the <see cref="AutowireException" /> class.</summary>
+		protected AutowireException( string message, Exception innerException ) : base( message, innerException ) {}
 	}
 }

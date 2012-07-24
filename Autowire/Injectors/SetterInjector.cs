@@ -47,19 +47,21 @@ namespace Autowire.Injectors
 		/// <summary>Inject the field or property for the given instance.</summary>
 		public void Inject( object instance )
 		{
+			object injectedArgument;
 			try
 			{
-				var injectedArgument = m_Container.ResolveByName( m_InjectedName, GetParameterType( instance ) );
-				if( injectedArgument == null )
-				{
-					throw new ResolveException( m_PropertyInfo.DeclaringType, "The injected property '{0}' (of type '{1}') can not be resolved.".FormatUi( m_PropertyInfo.Name, m_InjectedType.Name ) );
-				}
-				m_FastSetter.Set( instance, injectedArgument );
+				injectedArgument = m_Container.ResolveByName( m_InjectedName, GetParameterType( instance ) );
 			}
-			catch( ResolveException )
+			catch( ResolveException exception )
+			{
+				// Replace the generic "type can not be resolved exception" text with a more specific exception text
+				throw new ResolveException( m_PropertyInfo.DeclaringType, "The injected property '{0}' (of type '{1}') can not be resolved.".FormatUi( m_PropertyInfo.Name, m_InjectedType.Name ), exception );
+			}
+			if( injectedArgument == null )
 			{
 				throw new ResolveException( m_PropertyInfo.DeclaringType, "The injected property '{0}' (of type '{1}') can not be resolved.".FormatUi( m_PropertyInfo.Name, m_InjectedType.Name ) );
 			}
+			m_FastSetter.Set( instance, injectedArgument );
 		}
 
 		private Type GetParameterType( object instance )

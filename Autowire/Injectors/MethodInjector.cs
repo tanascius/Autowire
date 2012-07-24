@@ -49,7 +49,14 @@ namespace Autowire.Injectors
 			{
 				var parameter = m_Parameters[i];
 				var parameterType = parameter.Type.IsGenericParameter ? instance.GetType().GetGenericArguments()[parameter.Type.GenericParameterPosition] : parameter.Type;
-				args[i] = m_Container.ResolveByName( parameter.InjectedName, parameterType );
+				try
+				{
+					args[i] = m_Container.ResolveByName( parameter.InjectedName, parameterType );
+				}
+				catch( ResolveException exception )
+				{
+					throw new ResolveException( m_MethodInfo.DeclaringType, "The injected property '{0}' (of type '{1}') can not be resolved.".FormatUi( m_MethodInfo.Name, parameterType.Name ), exception );
+				}
 				if( args[i] == null )
 				{
 					throw new ResolveException( m_MethodInfo.DeclaringType, "The injected property '{0}' (of type '{1}') can not be resolved.".FormatUi( m_MethodInfo.Name, parameterType.Name ) );

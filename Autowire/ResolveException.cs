@@ -11,5 +11,11 @@ namespace Autowire
 		/// <param name="type">The type that could not be resolved.</param>
 		/// <param name="message">The message that is used for the exception.</param>
 		public ResolveException( Type type, string message ) : base( "An instance of '{0}' can not be created.\n{1}".FormatUi( type.Name, message ) ) {}
+
+		/// <summary>Initializes a new instance of the <see cref="ResolveException" /> class.</summary>
+		/// <param name="type">The type that could not be resolved.</param>
+		/// <param name="message">The message that is used for the exception.</param>
+		/// <param name="innerException">A possible inner exception.</param>
+		public ResolveException( Type type, string message, Exception innerException ) : base( "An instance of '{0}' can not be created.\n{1}".FormatUi( type.Name, message ), innerException ) {}
 	}
 }

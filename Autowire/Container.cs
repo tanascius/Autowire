@@ -309,24 +309,18 @@ namespace Autowire
 		/// <param name="keys">The key of the type.</param>
 		/// <param name="type">The type itself.</param>
 		/// <param name="args">The type's arguments.</param>
-		private IFactory GetFactory( IList<int> keys, Type type, object[] args )
+		private IFactory GetFactory( IEnumerable<int> keys, Type type, object[] args )
 		{
-			for( var keyIndex = 0; keyIndex < keys.Count; keyIndex++ )
+			foreach( var key in keys )
 			{
-				var key = keys[keyIndex];
 				IList<IFactory> factories;
 				if( !m_Factories.TryGetValue( key, out factories ) )
 				{
 					continue;
 				}
-				for( var factoryIndex = 0; factoryIndex < factories.Count; factoryIndex++ )
+				foreach( var t in factories.Where( t => t.CanInvoke( type, args ) ) )
 				{
-					// We have to check the factory, because in the case of
-					// hash collisions, we will get some useless factories ...
-					if( factories[factoryIndex].CanInvoke( type, args ) )
-					{
-						return factories[factoryIndex];
-					}
+					return t;
 				}
 			}
 			return null;
@@ -361,9 +355,9 @@ namespace Autowire
 			IList<IFactory> factories;
 			if( m_Factories.TryGetValue( key, out factories ) )
 			{
-				for( var factoryIndex = 0; factoryIndex < factories.Count; factoryIndex++ )
+				foreach( var t in factories )
 				{
-					collection.Add( ( T ) factories[factoryIndex].Invoke( container, type, args ) );
+					collection.Add( ( T ) t.Invoke( container, type, args ) );
 				}
 			}
 			return collection;
@@ -405,9 +399,9 @@ namespace Autowire
 			IList<IFactory> factories;
 			if( m_Factories.TryGetValue( key, out factories ) )
 			{
-				for( var factoryIndex = 0; factoryIndex < factories.Count; factoryIndex++ )
+				foreach( var t in factories )
 				{
-					collection.Add( factories[factoryIndex].Invoke( container, type, args ) );
+					collection.Add( t.Invoke( container, type, args ) );
 				}
 			}
 			return collection;
@@ -426,9 +420,8 @@ namespace Autowire
 		internal void SetAsSingleton( string name, object instance )
 		{
 			var keys = new RegisterKeyGenerator( name, instance ).GetKeys();
-			for( var i = 0; i < keys.Count; i++ )
+			foreach( var factories in keys.Select( GetFactories ) )
 			{
-				var factories = GetFactories( keys[i] );
 				factories.Insert( 0, new InstanceFactory( instance ) );
 			}
 		}

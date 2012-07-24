@@ -9,11 +9,12 @@ Binaries/
 bin/
 obj/
 
-# Resharper, StyleCop
+# Resharper, StyleCop, NCrunch
 *.ReSharper.*
 *.resharper
 _ReSharper*
 StyleCop.Cache
+*ncrunch*
 
 # MKS
 *.pj

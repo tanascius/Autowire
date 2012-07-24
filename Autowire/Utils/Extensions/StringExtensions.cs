@@ -46,6 +46,7 @@ namespace Autowire.Utils.Extensions
 			return string.Format( UiCulture, format, arg0, arg1, arg2 );
 		}
 
+		/*
 		/// <summary>Replaces the format item in a specified string with the string representation of a corresponding object in a specified array by using <see cref="UiCulture"/>.</summary>
 		/// <param name="format">A composite format string</param>
 		/// <param name="args">An object array that contains zero or more objects to format.</param>
@@ -54,6 +55,7 @@ namespace Autowire.Utils.Extensions
 		{
 			return string.Format( UiCulture, format, args );
 		}
+		*/
 		#endregion
 	}
 }

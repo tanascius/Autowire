@@ -21,6 +21,5 @@ namespace Autowire.Utils.Extensions
 			throw new ArgumentNullException( paramName );
 		}
 		#endregion
-
 	}
 }

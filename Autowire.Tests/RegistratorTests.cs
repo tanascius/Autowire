@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests
 {
@@ -10,9 +12,9 @@ namespace Autowire.Tests
 		#region test obejcts: IBar, Bar, PublicMarkedType, PublicMarkedTypeWithParameter
 		// ReSharper disable ClassNeverInstantiated.Local
 
-		private interface IBar { }
+		private interface IBar {}
 
-		private class Bar : IBar { }
+		private class Bar : IBar {}
 
 		private sealed class PublicMarkedType {}
 
@@ -49,7 +51,7 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container( true ) )
 			{
-				Action<Type, ITypeConfiguration> registrationHandler = delegate(Type type, ITypeConfiguration configuration)
+				Action<Type, ITypeConfiguration> registrationHandler = delegate( Type type, ITypeConfiguration configuration )
 				{
 					if( type == typeof( PublicMarkedTypeWithParameter ) )
 					{
@@ -68,7 +70,6 @@ namespace Autowire.Tests
 		}
 
 		[Test]
-		[Description( "" )]
 		[ExpectedException( typeof( ResolveException ) )]
 		public void RegisterIgnoredType()
 		{
@@ -79,6 +80,49 @@ namespace Autowire.Tests
 				container.Register.Type<Bar>();
 
 				container.Resolve<IBar>();
+			}
+		}
+
+		[Test]
+		public void RegisterAssemblyByName()
+		{
+			using( var container = new Container( true ) )
+			{
+				container.Register.AssemblyByName( "Autowire.Tests", IgnoreExceptionTypes );
+				Assert.GreaterOrEqual( container.Register.Count, 50 );
+
+				var publicMarkedType = container.Resolve<PublicMarkedType>();
+				Assert.IsNotNull( publicMarkedType );
+			}
+		}
+
+		[Test]
+		[ExpectedException( typeof( RegisterException ) )]
+		public void RegisterAssemblyByNameWithoutRegistrationHandler()
+		{
+			using( var container = new Container( true ) )
+			{
+				container.Register.AssemblyByName( "Autowire.Tests" );
+			}
+		}
+
+		[Test]
+		[ExpectedException( typeof( FileNotFoundException ) )]
+		public void RegisterNonExistingAssemblyByName()
+		{
+			using( var container = new Container( true ) )
+			{
+				container.Register.AssemblyByName( "whatever" );
+			}
+		}
+
+		[Test]
+		public void RegisterNonExistingAssemblyByName2()
+		{
+			using( var container = new Container( true ) )
+			{
+				var registered = container.Register.TryAssemblyByName( "whatever" );
+				Assert.That( registered, Is.False );
 			}
 		}
 

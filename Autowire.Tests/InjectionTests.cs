@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests
 {
@@ -193,7 +194,8 @@ namespace Autowire.Tests
 			}
 		}
 
-		[Test, ExpectedException( typeof( ResolveException ) )]
+		[Test]
+		[ExpectedException( typeof( ResolveException ) )]
 		public void InjectNotRegisteredConstructorArgument()
 		{
 			using( var container = new Container( true ) )
@@ -225,7 +227,8 @@ namespace Autowire.Tests
 			}
 		}
 
-		[Test, ExpectedException( typeof( ResolveException ) )]
+		[Test]
+		[ExpectedException( typeof( ResolveException ) )]
 		public void InjectNotRegisteredField()
 		{
 			using( var container = new Container( true ) )
@@ -256,7 +259,8 @@ namespace Autowire.Tests
 			}
 		}
 
-		[Test, ExpectedException( typeof( ResolveException ) )]
+		[Test]
+		[ExpectedException( typeof( ResolveException ) )]
 		public void InjectNotRegisteredProperty()
 		{
 			using( var container = new Container( true ) )
@@ -266,6 +270,21 @@ namespace Autowire.Tests
 				container.Register.Type<AutoInjectProperty>();
 
 				container.Resolve<AutoInjectProperty>();
+			}
+		}
+
+		[Test]
+		[Description( "Register AutoInjectMethod, but not Bar. Try to resolve AutoInjectMethod - will return null" )]
+		public void PropertyResolveReturnsNull()
+		{
+			using( var container = new Container() )
+			{
+				container.Configure<AutoInjectProperty>().InjectProperty( "BarPropertyInjected" );
+				container.Register.Type<AutoInjectProperty>();
+
+				var autoInjectProperty = container.Resolve<AutoInjectProperty>();
+
+				Assert.That( autoInjectProperty, Is.Null );
 			}
 		}
 
@@ -288,16 +307,30 @@ namespace Autowire.Tests
 			}
 		}
 
-		[Test, ExpectedException( typeof( ResolveException ) )]
+		[Test]
+		[ExpectedException( typeof( ResolveException ) )]
 		public void InjectNotRegisteredMethod()
 		{
 			using( var container = new Container( true ) )
 			{
 				container.Configure<AutoInjectMethod>().InjectMethod( "Inject" );
+				container.Register.Type<AutoInjectMethod>();
+				container.Resolve<AutoInjectMethod>();
+			}
+		}
 
+		[Test]
+		[Description( "Register AutoInjectMethod, but not Bar. Try to resolve AutoInjectMethod - will return null" )]
+		public void MethodResolveReturnsNull()
+		{
+			using( var container = new Container() )
+			{
+				container.Configure<AutoInjectMethod>().InjectMethod( "Inject" );
 				container.Register.Type<AutoInjectMethod>();
 
-				container.Resolve<AutoInjectMethod>();
+				var autoInjectMethod = container.Resolve<AutoInjectMethod>();
+
+				Assert.That( autoInjectMethod, Is.Null );
 			}
 		}
 
@@ -374,7 +407,8 @@ namespace Autowire.Tests
 			}
 		}
 
-		[Test, ExpectedException( typeof( ConfigureException ) )]
+		[Test]
+		[ExpectedException( typeof( ConfigureException ) )]
 		public void InjectForOtherFails()
 		{
 			using( var container = new Container( true ) )

@@ -122,7 +122,6 @@ namespace Autowire.Tests
 		{
 			using( var container = new Container( true ) )
 			{
-
 				// Bar "a" is just for distraction
 				container.Register.Instance( "a", new Bar() );
 
@@ -204,7 +203,7 @@ namespace Autowire.Tests
 				container.Register.Instance( "bar", bar );
 				container.Register.Type<AutoInjectConstructor>();
 
-				var autoInject = container.Resolve<AutoInjectConstructor>( NullArg.New<IBar>() );
+				var autoInject = container.Resolve<AutoInjectConstructor>( NullArg.New( typeof( IBar ) ) );
 
 				Assert.IsNotNull( autoInject );
 				Assert.IsNotNull( autoInject.BarInjected );

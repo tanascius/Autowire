@@ -72,8 +72,8 @@ namespace Autowire
 
 			// Get the configuration
 			var configuration = m_TypeConfigurationManager.Build( name, type );
-			OnRegistrationHandler(type, configuration);
-			m_TypeConfigurationManager.Update(name, type, configuration);
+			OnRegistrationHandler( type, configuration );
+			m_TypeConfigurationManager.Update( name, type, configuration );
 
 			// Use the same TypeInformation for all AutowireFactories of this type ...
 			var typeInformation = new TypeInformation( m_Container, name, type, m_TypeConfigurationManager );
@@ -218,7 +218,10 @@ namespace Autowire
 		[DebuggerStepThrough]
 		public void AssemblyByName( string name )
 		{
-			AssemblyByName( name, null );
+			if( !TryAssemblyByName( name, null ) )
+			{
+				throw new FileNotFoundException( "The assembly '{0}' can not be resolved.".FormatUi( name ) );
+			}
 		}
 
 		public void AssemblyByName( string name, Action<Type, ITypeConfiguration> registrationHandler )
@@ -240,13 +243,9 @@ namespace Autowire
 		public bool TryAssemblyByName( string name, Action<Type, ITypeConfiguration> registrationHandler )
 		{
 			name = name.ToUpperInvariant();
-			foreach( var assembly in AppDomain.CurrentDomain.GetAssemblies() )
+			foreach( var assembly in AppDomain.CurrentDomain.GetAssemblies().Where( assembly => assembly.GetName().Name.ToUpperInvariant() == name ) )
 			{
-				if( assembly.GetName().Name.ToUpperInvariant() != name )
-				{
-					continue;
-				}
-				Assembly( assembly );
+				Assembly( assembly, registrationHandler );
 				return true;
 			}
 			return false;

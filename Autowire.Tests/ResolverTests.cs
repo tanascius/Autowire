@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
@@ -51,21 +50,6 @@ namespace Autowire.Tests
 			}
 		}
 
-		private class AnotherSimpleResolverTestClass
-		{
-			private readonly Resolver<IBar> m_BarFactory;
-
-			public AnotherSimpleResolverTestClass( Resolver<IBar> barFactory )
-			{
-				m_BarFactory = barFactory;
-			}
-
-			public IBar CreateBar()
-			{
-				return m_BarFactory.Resolve();
-			}
-		}
-
 		private class NamedResolverTestClass
 		{
 			private readonly Resolver<IBar> m_BarFactory;
@@ -90,20 +74,35 @@ namespace Autowire.Tests
 				m_FooFactory = fooFactory;
 			}
 
-			public IFoo CreateFoo( IBar bar )
+			public Foo CreateFoo( IBar bar )
 			{
-				return m_FooFactory.Resolve( bar );
+				return m_FooFactory.Resolve<Foo>( bar );
 			}
 		}
 
 		private class ResolveAllTestClass
 		{
-			public ResolveAllTestClass( IEnumerable<IBar> barFactory )
+			public ResolveAllTestClass( Resolver<IBar> barFactory )
 			{
-				Bars = barFactory.ToArray();
+				Bars = barFactory.ResolveAll();
 			}
 
 			public IList<IBar> Bars { get; private set; }
+		}
+
+		private class ResolveAllByNameTestClass
+		{
+			private readonly Resolver<IBar> m_BarFactory;
+
+			public ResolveAllByNameTestClass( Resolver<IBar> barFactory )
+			{
+				m_BarFactory = barFactory;
+			}
+
+			public IList<IBar> GetBars( string name )
+			{
+				return m_BarFactory.ResolveAllByName( name );
+			}
 		}
 
 		// ReSharper restore MemberHidesStaticFromOuterClass
@@ -119,23 +118,6 @@ namespace Autowire.Tests
 			{
 				container.Register.Type<Bar>();
 				container.Register.Type<SimpleResolverTestClass>();
-
-				var factoryTestClass = container.Resolve<SimpleResolverTestClass>();
-				var bar = factoryTestClass.CreateBar();
-
-				Assert.That( bar, Is.InstanceOfType( typeof( IBar ) ) );
-			}
-		}
-
-		[Test]
-		[Description( "Resolve an object, that can create a bar at runtime dynamically. This time there are other registered types, that can resolve bars, too." )]
-		public void UseSameResolverTwice()
-		{
-			using( var container = new Container( true ) )
-			{
-				container.Register.Type<Bar>();
-				container.Register.Type<SimpleResolverTestClass>();
-				container.Register.Type<AnotherSimpleResolverTestClass>();
 
 				var factoryTestClass = container.Resolve<SimpleResolverTestClass>();
 				var bar = factoryTestClass.CreateBar();
@@ -199,6 +181,23 @@ namespace Autowire.Tests
 				var hasBars = container.Resolve<ResolveAllTestClass>();
 
 				Assert.That( hasBars.Bars.Count, Is.EqualTo( 3 ) );
+			}
+		}
+
+		[Test]
+		[Description( "Resolve an object, that can create a collection of all bars at runtime dynamically. Resolve the objects by name." )]
+		public void ResolveAllByNameTest()
+		{
+			using( var container = new Container( true ) )
+			{
+				container.Register.Type<Bar>( "a" );
+				container.Register.Type<BarDerived>( "a" );
+				container.Register.Type<BarDerived2>( "a" );
+				container.Register.Type<ResolveAllByNameTestClass>();
+
+				var hasBars = container.Resolve<ResolveAllByNameTestClass>();
+
+				Assert.That( hasBars.GetBars( "a" ).Count, Is.EqualTo( 3 ) );
 			}
 		}
 	}

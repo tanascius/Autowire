@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Individual Information
@@ -10,8 +11,8 @@ using System.Runtime.InteropServices;
 
 // Version information
 
-[assembly: AssemblyVersion( "0.7.5.*" )]
-[assembly: AssemblyInformationalVersion( "0.7.5.0" )]
+[assembly: AssemblyVersion( "0.8.0.*" )]
+[assembly: AssemblyInformationalVersion( "0.8.0.0" )]
 
 // General Information
 
@@ -29,7 +30,8 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible( false )]
 
 // Assembly signing
+//[assembly: AssemblyDelaySign( false )]
+//[assembly: AssemblyKeyFile( "" )]
+//[assembly: AssemblyKeyName( "" )]
 
-[assembly: AssemblyDelaySign( false )]
-[assembly: AssemblyKeyFile( "" )]
-[assembly: AssemblyKeyName( "" )]
+[assembly: InternalsVisibleTo( "Autowire.Tests" )]

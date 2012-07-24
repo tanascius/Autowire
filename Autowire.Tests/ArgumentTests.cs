@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests
 {
@@ -41,6 +42,25 @@ namespace Autowire.Tests
 		// ReSharper restore MemberHidesStaticFromOuterClass
 		// ReSharper restore ClassNeverInstantiated.Local
 		#endregion
+
+		[Test]
+		[Description( "Passing null value will throw a ConfigureException." )]
+		[ExpectedException( typeof( ConfigureException ) )]
+		public void StaticArgumentWithNullValue()
+		{
+			Argument.Static( string.Empty, null );
+		}
+
+		[Test]
+		[Description( "Create an argument. Check argument name, injection name, type and value." )]
+		public void F()
+		{
+			var argument = Argument.UseType( "argumentName", typeof( int ) );
+			Assert.That( argument.ArgumentName, Is.EqualTo( "argumentName" ) );
+			Assert.That( argument.InjectionName, Is.EqualTo( null ) );
+			Assert.That( argument.Type, Is.EqualTo( typeof( int ) ) );
+			Assert.That( argument.Value, Is.EqualTo( null ) );
+		}
 
 		[Test]
 		[Description( "Resolve a Foo which needs a Bar, that needs to be auto-injected." )]

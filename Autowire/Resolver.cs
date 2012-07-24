@@ -62,7 +62,7 @@ namespace Autowire
 		/// <returns>A <see cref="IList{T}"/> containing all resolved instances.</returns>
 		public IList<T> ResolveAllByName( string name, params object[] args )
 		{
-			return m_Container.ResolveAll<T>( name, args );
+			return m_Container.ResolveAllByName<T>( name, args );
 		}
 	}
 }

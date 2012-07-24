@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Autowire.Utils.Tuples
 {
 #if NET35

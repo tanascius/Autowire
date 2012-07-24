@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests
 {
@@ -143,13 +144,26 @@ namespace Autowire.Tests
 			}
 		}
 
-		[Test, ExpectedException( typeof( ResolveException ) )]
+		[Test]
+		[ExpectedException( typeof( ResolveException ) )]
 		public void PassNullToConstructor()
 		{
 			using( var container = new Container( true ) )
 			{
 				container.Register.Type<Foo>();
 				container.Resolve<IFoo>( null );
+			}
+		}
+
+		[Test]
+		[Description( "Register Foo, but not Bar. Try to resolve Foo - will return null" )]
+		public void CtorResolveReturnsNull()
+		{
+			using( var container = new Container() )
+			{
+				container.Register.Type<Foo>();
+				var foo = container.Resolve<IFoo>();
+				Assert.That( foo, Is.Null );
 			}
 		}
 

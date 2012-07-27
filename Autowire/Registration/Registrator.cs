@@ -8,7 +8,7 @@ using Autowire.Factories;
 using Autowire.KeyGenerators;
 using Autowire.Utils.Extensions;
 
-namespace Autowire
+namespace Autowire.Registration
 {
 	/// <summary>Helps to register types, instances and even complete assemblies.</summary>
 	internal class Registrator : IRegistrator

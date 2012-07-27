@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace Autowire
+namespace Autowire.Registration
 {
 	/// <summary>Interface for classes that allow to register types, instances and whole assemblies.</summary>
 	public interface IRegistrator

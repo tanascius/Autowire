@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Autowire.Resolving;
 using Autowire.Utils.Extensions;
 using Autowire.Utils.FastDynamics;
 

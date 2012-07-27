@@ -1,7 +1,7 @@
 using System;
 using Autowire.Utils.Extensions;
 
-namespace Autowire
+namespace Autowire.Resolving
 {
 	/// <summary>Is thrown, when a type cannot be resolved by a <see cref="Container"/>.</summary>
 	[Serializable]

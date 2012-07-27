@@ -8,6 +8,8 @@ using System.Linq;
 using System.Reflection;
 using Autowire.Factories;
 using Autowire.KeyGenerators;
+using Autowire.Registration;
+using Autowire.Resolving;
 using Autowire.Utils.Extensions;
 using Autowire.Utils.FastDynamics;
 

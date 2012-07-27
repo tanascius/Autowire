@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Autowire.Registration;
+using Autowire.Resolving;
 using Autowire.Utils.Extensions;
 using Autowire.Utils.FastDynamics;
 

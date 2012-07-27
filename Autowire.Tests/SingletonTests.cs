@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Autowire.Registration;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 

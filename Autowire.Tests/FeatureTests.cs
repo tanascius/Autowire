@@ -1,4 +1,5 @@
 ﻿using System;
+using Autowire.Registration;
 using NUnit.Framework;
 
 namespace Autowire.Tests

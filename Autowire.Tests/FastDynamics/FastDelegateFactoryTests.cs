@@ -1,4 +1,5 @@
 using System;
+using Autowire.Registration;
 using Autowire.Utils.FastDynamics;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;

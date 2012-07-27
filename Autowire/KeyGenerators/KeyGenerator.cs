@@ -1,5 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
+using Autowire.Registration;
+using Autowire.Resolving;
 
 namespace Autowire.KeyGenerators
 {

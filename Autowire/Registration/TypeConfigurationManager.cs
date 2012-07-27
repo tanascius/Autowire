@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Autowire.KeyGenerators;
 
-namespace Autowire
+namespace Autowire.Registration
 {
 	/// <summary>Creates, holds and updates <see cref="TypeConfiguration"/>s, which contain the parameters given by a user for each type.</summary>
 	internal class TypeConfigurationManager

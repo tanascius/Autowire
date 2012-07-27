@@ -1,6 +1,6 @@
 using System;
 
-namespace Autowire
+namespace Autowire.Registration
 {
 	/// <summary>Interface for classes that wrap null arguments but preserve the type of the argument</summary>
 	public interface INullArg

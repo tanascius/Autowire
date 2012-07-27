@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Autowire
+namespace Autowire.Resolving
 {
 	/// <summary>Marker interface for the Resolver{T}</summary>
 	internal interface IResolver {}

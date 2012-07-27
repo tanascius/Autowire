@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Autowire
+namespace Autowire.Registration
 {
 	/// <summary>Holds the configuration of an injected method.</summary>
 	internal class MethodConfiguration : IArgumentConfiguration

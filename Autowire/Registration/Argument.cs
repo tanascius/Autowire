@@ -1,6 +1,7 @@
 using System;
+using Autowire.Resolving;
 
-namespace Autowire
+namespace Autowire.Registration
 {
 	/// <summary>Represents an argument for a constructor or a method.</summary>
 	public class Argument

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Threading;
 using Autowire.Injectors;
+using Autowire.Registration;
 using Autowire.Utils.Extensions;
 
 namespace Autowire

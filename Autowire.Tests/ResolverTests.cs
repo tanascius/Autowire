@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Autowire.Registration;
+using Autowire.Resolving;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 

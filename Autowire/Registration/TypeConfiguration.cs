@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Autowire.Utils.Extensions;
 
-namespace Autowire
+namespace Autowire.Registration
 {
 	/// <summary>Holds the configuration given by the user of a type.</summary>
 	internal class TypeConfiguration : ITypeConfiguration

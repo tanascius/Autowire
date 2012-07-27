@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using Autowire.Registration;
+using Autowire.Resolving;
+using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
 namespace Autowire.Tests

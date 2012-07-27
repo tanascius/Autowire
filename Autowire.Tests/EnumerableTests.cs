@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Autowire.Registration;
+using Autowire.Resolving;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 

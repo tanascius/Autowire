@@ -1,4 +1,4 @@
-namespace Autowire
+namespace Autowire.Registration
 {
 	/// <summary>The scope in which instances of a type are used and created.</summary>
 	public enum Scope

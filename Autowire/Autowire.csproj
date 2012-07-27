@@ -62,34 +62,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Argument.cs" />
+    <Compile Include="Registration\Argument.cs" />
     <Compile Include="AutowireException.cs" />
     <Compile Include="KeyGenerators\RegisterKeyGenerator.cs" />
     <Compile Include="KeyGenerators\ResolveKeyGenerator.cs" />
-    <Compile Include="MethodConfiguration.cs" />
-    <Compile Include="RegisterException.cs" />
-    <Compile Include="ResolveException.cs" />
-    <Compile Include="ConfigureException.cs" />
+    <Compile Include="Registration\MethodConfiguration.cs" />
+    <Compile Include="Registration\IArgumentConfiguration.cs" />
+    <Compile Include="Registration\ILazyConfiguration.cs" />
+    <Compile Include="Registration\IMembersConfiguration.cs" />
+    <Compile Include="Registration\RegisterException.cs" />
+    <Compile Include="Resolving\ResolveException.cs" />
+    <Compile Include="Registration\ConfigureException.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Factories\Factory.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Injectors\IInjector.cs" />
     <Compile Include="Factories\InstanceFactory.cs" />
-    <Compile Include="IRegistrator.cs" />
-    <Compile Include="ITypeConfiguration.cs" />
+    <Compile Include="Registration\IRegistrator.cs" />
+    <Compile Include="Registration\ITypeConfiguration.cs" />
     <Compile Include="KeyGenerators\KeyGenerator.cs" />
     <Compile Include="Injectors\MethodInjector.cs" />
-    <Compile Include="NullArg.cs" />
+    <Compile Include="Registration\NullArg.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registrator.cs" />
-    <Compile Include="Scope.cs" />
+    <Compile Include="Registration\Registrator.cs" />
+    <Compile Include="Registration\Scope.cs" />
     <Compile Include="Injectors\SetterInjector.cs" />
-    <Compile Include="Resolver.cs" />
+    <Compile Include="Resolving\Resolver.cs" />
     <Compile Include="Factories\SelfFactory.cs" />
-    <Compile Include="TypeConfiguration.cs" />
-    <Compile Include="TypeConfigurationManager.cs" />
+    <Compile Include="Registration\TypeConfiguration.cs" />
+    <Compile Include="Registration\TypeConfigurationManager.cs" />
     <Compile Include="TypeInformation.cs" />
     <Compile Include="Utils\FastDynamics\FastDelegateFactory.cs" />
     <Compile Include="Utils\FastDynamics\FastFieldSetter.cs" />
@@ -120,6 +123,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

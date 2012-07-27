@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Autowire.Registration;
+using Autowire.Resolving;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 

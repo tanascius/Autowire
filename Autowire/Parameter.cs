@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Autowire.Registration;
 using Autowire.Utils.FastDynamics;
 
 namespace Autowire

@@ -1,7 +1,7 @@
 ﻿using System;
 using Autowire.Utils.Extensions;
 
-namespace Autowire
+namespace Autowire.Registration
 {
 	/// <summary>Is thrown, when a type cannot be registered by a <see cref="Container"/>.</summary>
 	[Serializable]

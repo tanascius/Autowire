@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Autowire.Registration;
 using NUnit.Framework;
 
 namespace Autowire.Tests.Performance

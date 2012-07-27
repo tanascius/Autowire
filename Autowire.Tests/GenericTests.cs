@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Autowire.Registration;
 using NUnit.Framework;
 
 namespace Autowire.Tests

@@ -177,7 +177,7 @@ namespace Autowire.Tests
 				container.Configure<Foo>().Arguments( Argument.UserProvided( "bar" ) );
 
 				container.Register.Type<Foo>();
-				var foo = container.Resolve<IFoo>( NullArg.New<Bar>() );
+				var foo = container.Resolve<IFoo>( Argument.Null<Bar>() );
 
 				Assert.IsNull( foo.Bar );
 			}

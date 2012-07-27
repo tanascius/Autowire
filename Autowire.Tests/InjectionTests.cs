@@ -169,7 +169,7 @@ namespace Autowire.Tests
 				container.Register.Instance( bar );
 				container.Register.Type<AutoInjectConstructor>();
 
-				var autoInject = container.Resolve<AutoInjectConstructor>( NullArg.New<IBar>() );
+				var autoInject = container.Resolve<AutoInjectConstructor>( Argument.Null<IBar>() );
 
 				Assert.IsNotNull( autoInject );
 				Assert.IsNotNull( autoInject.BarInjected );
@@ -188,7 +188,7 @@ namespace Autowire.Tests
 				container.Register.Type<Bar>().WithScope( Scope.Singleton );
 				container.Register.Type<AutoInjectConstructor>();
 
-				var autoInject = container.Resolve<AutoInjectConstructor>( NullArg.New<IBar>() );
+				var autoInject = container.Resolve<AutoInjectConstructor>( Argument.Null<IBar>() );
 
 				Assert.IsNotNull( autoInject.BarInjected );
 				Assert.IsNull( autoInject.BarNotInjected );

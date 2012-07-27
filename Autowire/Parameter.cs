@@ -27,16 +27,8 @@ namespace Autowire
 					return;
 				}
 
-				if( argument.Value is INullArg )
-				{
-					Value = null;
-					HasValue = true;
-				}
-				else
-				{
-					Value = argument.Value;
-					HasValue = Value != null;
-				}
+				Value = argument.Value;
+				HasValue = Value != null;
 				IsUserInput = argument.Value == null && string.IsNullOrEmpty( argument.InjectionName );
 				InjectedName = argument.InjectionName;
 			}

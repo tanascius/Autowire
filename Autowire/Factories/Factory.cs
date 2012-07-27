@@ -167,7 +167,7 @@ namespace Autowire.Factories
 					continue;
 				}
 				var providedArg = args[parameterIndex++];
-				var providedNullArg = providedArg as INullArg;
+				var providedNullArg = providedArg as NullArg;
 				var providedType = providedNullArg != null ? providedNullArg.Type : providedArg.GetType();
 				if( !parameter.Type.IsAssignableFrom( providedType ) )
 				{
@@ -198,7 +198,7 @@ namespace Autowire.Factories
 				if( parameter.IsUserInput )
 				{
 					var arg = args[userProvidedArgumentIndex++];
-					if( arg is INullArg )
+					if( arg is NullArg )
 					{
 						arg = null;
 					}

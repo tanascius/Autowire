@@ -34,7 +34,7 @@ namespace Autowire.KeyGenerators
 			m_ParameterTypes = new Type[args.Length];
 			for( var i = 0; i < args.Length; i++ )
 			{
-				var nullArg = args[i] as INullArg;
+				var nullArg = args[i] as NullArg;
 				m_ParameterTypes[i] = nullArg == null ? args[i].GetType() : nullArg.Type;
 			}
 		}

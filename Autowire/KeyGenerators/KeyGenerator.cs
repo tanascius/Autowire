@@ -51,7 +51,7 @@ namespace Autowire.KeyGenerators
 					{
 						throw new ResolveException( type, "Given arguments can not be null. Use NullArg<> instead of passing null." );
 					}
-					var nullArg = arg as INullArg;
+					var nullArg = arg as NullArg;
 					var argHashCode = nullArg == null ? arg.GetType().GetHashCode() : nullArg.Type.GetHashCode();
 					hashCode ^= argHashCode * m_KeyModifier[args.Length - i - 1];
 				}

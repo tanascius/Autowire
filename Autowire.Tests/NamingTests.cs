@@ -204,7 +204,7 @@ namespace Autowire.Tests
 				container.Register.Instance( "bar", bar );
 				container.Register.Type<AutoInjectConstructor>();
 
-				var autoInject = container.Resolve<AutoInjectConstructor>( NullArg.New( typeof( IBar ) ) );
+				var autoInject = container.Resolve<AutoInjectConstructor>( Argument.Null( typeof( IBar ) ) );
 
 				Assert.IsNotNull( autoInject );
 				Assert.IsNotNull( autoInject.BarInjected );

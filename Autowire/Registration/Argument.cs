@@ -6,6 +6,7 @@ namespace Autowire.Registration
 	/// <summary>Represents an argument for a constructor or a method.</summary>
 	public class Argument
 	{
+		#region static methods: Static, UserProvided, Named, UseType
 		/// <summary>Creates a new argument with a value.</summary>
 		/// <param name="argumentName">The name of the argument as coded in the signature of the constructor or method.</param>
 		/// <param name="value">The value of the argument.</param>
@@ -56,6 +57,23 @@ namespace Autowire.Registration
 		{
 			return new Argument( argumentName, null, null, type );
 		}
+		#endregion
+
+		#region static method: Null
+		/// <summary>Creates a new instance of the <see cref="NullArg" /> class.</summary>
+		/// <param name="type">The type of the argument.</param>
+		public static NullArg Null( Type type )
+		{
+			return new NullArg( type );
+		}
+
+		/// <summary>Creates a new instance of the <see cref="NullArg" /> class.</summary>
+		/// <typeparam name="T">The type of the argument.</typeparam>
+		public static NullArg Null<T>()
+		{
+			return new NullArg( typeof( T ) );
+		}
+		#endregion
 
 		private Argument( string argumentName, string injectionName, object value, Type type )
 		{

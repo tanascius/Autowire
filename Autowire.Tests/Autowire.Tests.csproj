@@ -45,6 +45,7 @@
       <HintPath>..\Binaries\Libs\nunit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -59,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppConfigTests.cs" />
     <Compile Include="ArgumentTests.cs" />
     <Compile Include="EnumerableTests.cs" />
     <Compile Include="FastDynamics\FastDelegateFactoryTests.cs" />
@@ -86,6 +88,11 @@
       <Project>{60767409-16FC-4E0A-A352-375FE281FFE5}</Project>
       <Name>Autowire</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

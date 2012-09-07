@@ -57,6 +57,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -71,6 +72,11 @@
     <Compile Include="Registration\ILazyConfiguration.cs" />
     <Compile Include="Registration\IMembersConfiguration.cs" />
     <Compile Include="Registration\RegisterException.cs" />
+    <Compile Include="Registration\Xml\AutowireConfigurationSection.cs" />
+    <Compile Include="Registration\Xml\ContainerCollection.cs" />
+    <Compile Include="Registration\Xml\ContainerConfig.cs" />
+    <Compile Include="Registration\Xml\TypeCollection.cs" />
+    <Compile Include="Registration\Xml\TypeConfig.cs" />
     <Compile Include="Resolving\ResolveException.cs" />
     <Compile Include="Registration\ConfigureException.cs" />
     <Compile Include="Container.cs" />

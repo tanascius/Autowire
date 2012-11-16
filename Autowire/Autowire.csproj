@@ -72,11 +72,13 @@
     <Compile Include="Registration\ILazyConfiguration.cs" />
     <Compile Include="Registration\IMembersConfiguration.cs" />
     <Compile Include="Registration\RegisterException.cs" />
+    <Compile Include="Registration\Xml\ArgumentElementCollection.cs" />
+    <Compile Include="Registration\Xml\ArgumentElement.cs" />
     <Compile Include="Registration\Xml\AutowireConfigurationSection.cs" />
-    <Compile Include="Registration\Xml\ContainerCollection.cs" />
-    <Compile Include="Registration\Xml\ContainerConfig.cs" />
-    <Compile Include="Registration\Xml\TypeCollection.cs" />
-    <Compile Include="Registration\Xml\TypeConfig.cs" />
+    <Compile Include="Registration\Xml\ContainerElementCollection.cs" />
+    <Compile Include="Registration\Xml\ContainerElement.cs" />
+    <Compile Include="Registration\Xml\TypeElementCollection.cs" />
+    <Compile Include="Registration\Xml\TypeElement.cs" />
     <Compile Include="Resolving\ResolveException.cs" />
     <Compile Include="Registration\ConfigureException.cs" />
     <Compile Include="Container.cs" />

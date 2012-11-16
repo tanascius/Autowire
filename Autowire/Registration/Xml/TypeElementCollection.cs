@@ -2,17 +2,17 @@
 
 namespace Autowire.Registration.Xml
 {
-	///<summary>A collections of <see cref="TypeConfig"/>s.</summary>
-	public class TypeCollection : ConfigurationElementCollection
+	///<summary>A collections of <see cref="TypeElement"/>s.</summary>
+	public class TypeElementCollection : ConfigurationElementCollection
 	{
 		protected override ConfigurationElement CreateNewElement()
 		{
-			return new TypeConfig();
+			return new TypeElement();
 		}
 
 		protected override object GetElementKey( ConfigurationElement element )
 		{
-			return ( ( TypeConfig ) element ).Name;
+			return ( ( TypeElement ) element ).Name;
 		}
 
 		protected override string ElementName
@@ -25,9 +25,9 @@ namespace Autowire.Registration.Xml
 			get { return ConfigurationElementCollectionType.BasicMap; }
 		}
 
-		public TypeConfig this[ int index ]
+		public TypeElement this[ int index ]
 		{
-			get { return ( TypeConfig ) BaseGet( index ); }
+			get { return ( TypeElement ) BaseGet( index ); }
 		}
 	}
 }

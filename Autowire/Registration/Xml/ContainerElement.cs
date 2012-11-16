@@ -4,17 +4,17 @@ using System.Configuration;
 namespace Autowire.Registration.Xml
 {
 	///<summary>A <see cref="ConfigurationElement"/> for an Autowire <see cref="Container"/>.</summary>
-	public class ContainerConfig : ConfigurationElement
+	public class ContainerElement : ConfigurationElement
 	{
-		///<summary>Returns a collection of <see cref="TypeConfig"/>s</summary>
+		///<summary>Returns a collection of <see cref="TypeElement"/>s</summary>
 		[ConfigurationProperty( "types", IsDefaultCollection = false )]
-		[ConfigurationCollection( typeof( TypeCollection ) )]
-		public TypeCollection Types
+		[ConfigurationCollection( typeof( TypeElementCollection ) )]
+		public TypeElementCollection Types
 		{
-			get { return ( TypeCollection ) this["types"]; }
+			get { return ( TypeElementCollection ) this["types"]; }
 		}
 
-		///<summary>The name of the ContainerConfig section</summary>
+		///<summary>The name of the ContainerElement section</summary>
 		[ConfigurationProperty( "name" )]
 		public string Name
 		{
@@ -25,7 +25,7 @@ namespace Autowire.Registration.Xml
 		public IContainer Create( bool throwIfUnableToResolve = false )
 		{
 			var container = new Container( throwIfUnableToResolve );
-			foreach( TypeConfig typeConfig in Types )
+			foreach( TypeElement typeConfig in Types )
 			{
 				var type = Type.GetType( typeConfig.Name, true );
 				container.Register.Type( type ).WithScope( typeConfig.Scope );

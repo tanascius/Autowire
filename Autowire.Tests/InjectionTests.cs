@@ -279,7 +279,7 @@ namespace Autowire.Tests
 		[Description( "Register AutoInjectMethod, but not Bar. Try to resolve AutoInjectMethod - will return null" )]
 		public void PropertyResolveReturnsNull()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( false ) )
 			{
 				container.Configure<AutoInjectProperty>().InjectProperty( "BarPropertyInjected" );
 				container.Register.Type<AutoInjectProperty>();
@@ -325,7 +325,7 @@ namespace Autowire.Tests
 		[Description( "Register AutoInjectMethod, but not Bar. Try to resolve AutoInjectMethod - will return null" )]
 		public void MethodResolveReturnsNull()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( false ) )
 			{
 				container.Configure<AutoInjectMethod>().InjectMethod( "Inject" );
 				container.Register.Type<AutoInjectMethod>();

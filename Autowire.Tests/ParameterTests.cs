@@ -161,7 +161,7 @@ namespace Autowire.Tests
 		[Description( "Register Foo, but not Bar. Try to resolve Foo - will return null" )]
 		public void CtorResolveReturnsNull()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( false ) )
 			{
 				container.Register.Type<Foo>();
 				var foo = container.Resolve<IFoo>();

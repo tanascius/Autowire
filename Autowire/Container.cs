@@ -39,7 +39,7 @@ namespace Autowire
 
 		#region Constructors
 		/// <summary>Initializes a new instance of the <see cref="Container" /> class.</summary>
-		public Container( bool throwIfUnableToResolve = false )
+		public Container( bool throwIfUnableToResolve = true )
 		{
 			m_ThrowIfUnableToResolve = throwIfUnableToResolve;
 
@@ -53,7 +53,7 @@ namespace Autowire
 		}
 
 		/// <summary>Initializes a new instance of the <see cref="Container" /> class.</summary>
-		private Container( Container parent, bool throwIfUnableToResolve = false ) : this( throwIfUnableToResolve )
+		private Container( Container parent, bool throwIfUnableToResolve = true ) : this( throwIfUnableToResolve )
 		{
 			m_Parent = parent;
 		}

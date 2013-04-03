@@ -154,7 +154,7 @@ namespace Autowire.Tests
 		[Description( "Resolve a class that is not registered. The container is configured not to throw an exception, so the resolved value will be null." )]
 		public void ResolveUnknownType()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( false ) )
 			{
 				var instance = container.Resolve<IBar>();
 				Assert.IsNull( instance );

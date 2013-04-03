@@ -22,7 +22,7 @@ namespace Autowire.Registration.Xml
 		}
 
 		///<summary>Creates a <see cref="Container"/> for this configuration.</summary>
-		public IContainer Create( bool throwIfUnableToResolve = false )
+		public IContainer Create( bool throwIfUnableToResolve = true )
 		{
 			var container = new Container( throwIfUnableToResolve );
 			foreach( TypeElement typeConfig in Types )

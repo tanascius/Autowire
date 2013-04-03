@@ -126,7 +126,7 @@ namespace Autowire.Tests
 		[Test]
 		public void CreateChildContainer()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( false ) )
 			{
 				container.Register.Type<Bar>().WithScope( Scope.Singleton );
 
@@ -145,7 +145,7 @@ namespace Autowire.Tests
 		[Test, Description( "Container registeres A, creates a child container, which registriers B (that needs A injected)" )]
 		public void UseChildContainerAndParentInjection()
 		{
-			using( var container = new Container() )
+			using( var container = new Container( false ) )
 			{
 				container.Register.Type<Bar>( "bar" ).WithScope( Scope.Singleton );
 
